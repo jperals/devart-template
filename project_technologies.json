@@ -8,9 +8,8 @@
             "Processing"
         ],
         "platforms": [
-            "Android",
-            "Processing"
-        ],
+            "Android"
+        ]
     },
     "themes": [
         "randomness",
