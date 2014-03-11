@@ -1,33 +1,49 @@
-# Project Title
-Insert the name of your project
+# Serendipiter
 
 ## Authors
-- Insert main author name, surname, github account
-- Insert other author(s) name, surname, github account (one per list element)
+- Joan Perals Tresserra, http://github.com/jperals
 
 ## Description
-Insert a description containing about 100 to 150 words, including your motivation and the meaning behind your idea and execution. The Judges will be keen to know how your idea pushes the boundaries of code and technology. 
+This project started as a Processing sketch with heavy dependency on random decisions, just to create effects that would eventually help me get inspired. Randomness has been a key part of the so-called "computer art", and it has helped many people create new interesting forms --but, how far can we actually go with that concept?
 
-## Link to Prototype
-NOTE: If your project lives online you can add one or more links here. Make sure you have a stable version of your project running before linking it.
+Here I'm following a kind of constant dialogue, on one side trying to leave as much room as possible for serendipity, while at the same time constraining the program to certain basic rules that obey to my own aesthetic judgment.
 
-[Example Link](http://www.google.com "Example Link")
+But a bigger challenge is to make the process transparent to the viewer. Ideally, the output of the sketch would be not only an animation but also a generated code that can be related to the result.
 
 ## Example Code
-NOTE: Wrap your code blocks or any code citation by using ``` like the example below.
-```
-function test() {
-  console.log("Printing a test");
-}
-```
-## Links to External Libraries
- NOTE: You can also use this space to link to external libraries or Github repositories you used on your project.
+Currently the project has the form of a Processing sketch in Coffeescript mode.
+Among other things, this allows me to execute functions that I pick randomly, e.g, from an array.
+Consider the class "Artifact". Note the "update" method which is called at each iteration from the main loop:
 
-[Example Link](http://www.google.com "Example Link")
+```
+class Artifact
+  constructor: ->
+    this.color = randomColor()
+    this.translationStep = new PVector((Math.random() - 0.5) * width * 0.1, (Math.random() - 0.5) * height * 0.1)
+    this.pointTranslationStep = new PVector((Math.random() - 0.5) * width * 0.001, (Math.random() - 0.5) * height * 0.001)
+  update: ->
+    for mutation in this.mutations
+      mutation(this)
+(...)
+```
 
+This method calls all the functions inside the "mutations" array that lives inside every artifact. But this set of mutations is different for each type of artifact. For example, points just move their position and/or their speed:
+
+```
+class Point extends Artifact
+  constructor: ->
+    super
+    this.mutations = randomSelection(Point.prototype.possibleMutations)
+(...)
+  possibleMutations: [
+    (artifact) ->
+      artifact.position.x += artifact.pointTranslationStep.x
+      artifact.position.y += artifact.pointTranslationStep.y
+    (artifact) ->
+      artifact.pointTranslationStep.x += artifact.acceleration.x
+      artifact.pointTranslationStep.y += artifact.acceleration.y
+  ]
+```
 ## Images & Videos
-NOTE: For additional images you can either use a relative link to an image on this repo or an absolute link to an externally hosted image.
 
-![Example Image](project_images/cover.jpg?raw=true "Example Image")
-
-https://www.youtube.com/watch?v=30yGOxJJ2PQ
+![Screenshot](project_images/cover.png?raw=true "Screenshot")
