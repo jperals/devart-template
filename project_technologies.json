@@ -1,13 +1,20 @@
 {
     "technologies": {
+        "apis": [
+            "insert apis"
+        ],
         "languages": [
-            "processing"
+            "Coffeescript",
+            "Processing"
         ],
         "platforms": [
-            "Android"
+            "Android",
+            "Processing"
         ],
     },
     "themes": [
-        "insert themes"
+        "randomness",
+        "particles",
+        "aesthetics"
     ]
 }
