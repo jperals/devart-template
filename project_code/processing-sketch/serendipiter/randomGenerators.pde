@@ -1,19 +1,20 @@
-randomAngle = () ->
-  return Math.random() * TWO_PI
+float randomAngle() {
+  return random(TWO_PI);
+}
 
-randomColor = (alpha) ->
-  return color(Math.random()*255, Math.random()*255, Math.random()*255, alpha || Math.random()*255)
+color randomColor(float alpha) {
+  return color(random(255), random(255), random(255), alpha);
+}
 
-randomPosition = () ->
-  return new PVector((Math.random() * 3 - 1) * (width), (Math.random() * 3 - 1) * (height))
+color randomColor() {
+  return randomColor(random(255)); // If alpha is not specified, make it random too
+}
 
-randomSelection = (set, n) ->
-  selection = []
-  if n is undefined
-    n = set.length - 1
-  for i in [1..n]
-    j = Math.min(Math.floor(Math.random() * set.length - 1) + 1, set.length - 1)
-    item = set[j]
-    selection.push item
-  return selection
+PVector randomPosition(int w, int h) {
+  return new PVector(random(-0.5, 1.5)*w, random(-0.5, 1.5)*h); // This will return also positions out from the visible screen
+}
+
+PVector randomPosition() {
+  return randomPosition(width, height);
+}
 

@@ -1,41 +1,59 @@
-setup: ->
+import java.util.Date; // Required to use the Date class further down
 
-  @ATTRACTION = random(-1/10000, 1/10000)
-  @DRAW_ARTIFACTS = Math.random() < .6667
-  @DRAW_LINE = not @DRAW_ARTIFACTS or Math.random() < .5
-  @CLEAR = Math.random() > .5
-  N_ARTIFACTS = 500
-  
-  println "attraction factor: " + @ATTRACTION
-  println "draw artifacts: " + @DRAW_ARTIFACTS
-  println "draw line: " + @DRAW_LINE
-  println "clear: " + @CLEAR
-  println "number of artifacts: " + N_ARTIFACTS
+ArrayList<Artifact> artifacts;
+boolean clear, drawArtifacts, drawLine;
+color backgroundColor;
+float attraction;
+int numberOfArtifacts;
 
-  size 1000, 500
+void setup() {
+  size(1000, 500);
+  artifacts = new ArrayList<Artifact>();
+  backgroundColor = randomColor();
+  clear = random(1) < 0.5;
+  drawArtifacts = random(1) < 0.6667;
+  drawLine = !drawArtifacts || random(1) < 0.5;
+  attraction = random(-0.0001, 0.0001);
+  numberOfArtifacts = int(random(500, 1500));
+  println("attraction: " + attraction);
+  println("draw artifacts: " + drawArtifacts);
+  println("draw line: " + drawLine);
+  println("number of artifacts: " + numberOfArtifacts);
+  for(int i = 0; i < numberOfArtifacts; i++) {
+    Artifact artifact = new Point();
+    artifacts.add(artifact);
+  }
+  background(backgroundColor);
+}
 
-  @BG_COLOR = randomColor()
-  
-  @artifacts = []
-  for i in [0..N_ARTIFACTS]
-    artifact = new Point()
-    @artifacts.push artifact
+void draw() {
+  if(clear) {
+    noStroke();
+    fill(backgroundColor);
+    rect(0, 0, width, height); // The background() function doesn't seem to allow the use of alpha, so we draw a rectangle instead
+  }
+  for(int i = 0; i < numberOfArtifacts; i++) {
+    Artifact artifact = artifacts.get(i);
+    Artifact closestArtifact = artifact.getClosestArtifact(artifacts);
+    if(drawArtifacts) {
+      artifact.display();
+    }
+    if(drawLine) {
+      color lineColor = lerpColor(artifact.baseColor, closestArtifact.baseColor, 0.5);
+      stroke(lineColor);
+      line(artifact.position.x, artifact.position.y, closestArtifact.position.x, closestArtifact.position.y);
+    }
+    artifact.update();
+    PVector difference = artifact.differenceTo(closestArtifact);
+    artifact.acceleration = new PVector(difference.x * attraction, difference.y * attraction);
+  }
+}
 
-  background @BG_COLOR
-
-draw: ->
-  if @CLEAR
-    noStroke()
-    fill @BG_COLOR
-    rect 0, 0, width, width
-  for artifact in @artifacts
-    closestArtifact = artifact.getClosestArtifact(@artifacts)
-    if @DRAW_ARTIFACTS
-      artifact.draw()
-    if @DRAW_LINE
-      stroke artifact.color
-      line artifact.position.x, artifact.position.y, closestArtifact.position.x, closestArtifact.position.y
-    artifact.update()
-    difference = artifact.differenceTo(closestArtifact)
-    artifact.acceleration = new PVector(difference.x * @ATTRACTION, difference.y * @ATTRACTION)
+void keyPressed() {
+  if(key == 's') {
+    Date date = new Date(); // Including the system time in the screenshot file name allows us to keep any screenshots we want instead of overriding the same file all the time
+    String formattedDate = new java.text.SimpleDateFormat("yyyy-MM-dd.kk.mm.ss").format(date.getTime());
+    saveFrame("screenshot-" + formattedDate + "-######.png");
+  }
+}
 
