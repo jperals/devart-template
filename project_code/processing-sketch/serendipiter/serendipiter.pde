@@ -1,13 +1,19 @@
 import java.util.Date; // Required to use the Date class further down
+import netP5.*;
+import oscP5.*;
 
 ArrayList<Artifact> artifacts;
 boolean clear, drawArtifacts, drawLine;
 color backgroundColor;
 float attraction;
 int numberOfArtifacts;
+NetAddress theOther;
+OscP5 oscP5;
 
 void setup() {
   size(1000, 500);
+  oscP5 = new OscP5(this, MY_PORT);
+  theOther = new NetAddress(OTHER_IP, OTHER_PORT);
   artifacts = new ArrayList<Artifact>();
   backgroundColor = randomColor();
   clear = random(1) < 0.5;
@@ -46,6 +52,14 @@ void draw() {
     artifact.update();
     PVector difference = artifact.differenceTo(closestArtifact);
     artifact.acceleration = new PVector(difference.x * attraction, difference.y * attraction);
+  }
+}
+
+void oscEvent(OscMessage msg) {
+  println("message recieved");
+  if(msg.checkAddrPattern("/attraction")) {
+    println("attraction value recieved");
+    attraction = msg.get(0).intValue();
   }
 }
 
