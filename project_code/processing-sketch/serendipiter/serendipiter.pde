@@ -59,7 +59,19 @@ void oscEvent(OscMessage msg) {
   println("message recieved");
   if(msg.checkAddrPattern("/attraction")) {
     println("attraction value recieved");
-    attraction = msg.get(0).intValue();
+    attraction = msg.get(0).floatValue();
+  }
+  if(msg.checkAddrPattern("/drawlines")) {
+    println("draw lines: " + msg.get(0).intValue());
+    drawLine = msg.get(0).intValue() == 1;
+  }
+  if(msg.checkAddrPattern("/drawpoints")) {
+    println("draw artifacts: " + msg.get(0).intValue());
+    drawArtifacts = msg.get(0).intValue() == 1;
+  }
+  if(msg.checkAddrPattern("/trace")) {
+    println("clear: " + msg.get(0).intValue());
+    clear = msg.get(0).intValue() == 0;
   }
 }
 
