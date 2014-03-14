@@ -11,7 +11,7 @@ NetAddress theOther;
 OscP5 oscP5;
 
 void setup() {
-  size(1000, 500);
+  size(800, 800);
   oscP5 = new OscP5(this, MY_PORT);
   theOther = new NetAddress(OTHER_IP, OTHER_PORT);
   artifacts = new ArrayList<Artifact>();
@@ -58,20 +58,28 @@ void draw() {
 void oscEvent(OscMessage msg) {
   println("message recieved");
   if(msg.checkAddrPattern("/attraction")) {
-    println("attraction value recieved");
     attraction = msg.get(0).floatValue();
+    println("attraction: " + attraction);
+  }
+  if(msg.checkAddrPattern("/backgroundcolor")) {
+    float red = msg.get(0).floatValue();
+    float green = msg.get(1).floatValue();
+    float blue = msg.get(2).floatValue();
+    float alpha = msg.get(3).floatValue();
+    backgroundColor = color(red, green, blue, alpha);
+    println("background color: " + backgroundColor);
   }
   if(msg.checkAddrPattern("/drawlines")) {
-    println("draw lines: " + msg.get(0).intValue());
     drawLine = msg.get(0).intValue() == 1;
+    println("draw lines: " + drawLine);
   }
   if(msg.checkAddrPattern("/drawpoints")) {
-    println("draw artifacts: " + msg.get(0).intValue());
     drawArtifacts = msg.get(0).intValue() == 1;
+    println("draw artifacts: " + drawArtifacts);
   }
   if(msg.checkAddrPattern("/trace")) {
-    println("clear: " + msg.get(0).intValue());
     clear = msg.get(0).intValue() == 0;
+    println("clear: " + clear);
   }
 }
 

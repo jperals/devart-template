@@ -11,8 +11,8 @@ color backgroundColor;
 float attractionValue;
 
 void setup() {
-  size(400, 700);
-  backgroundColor = 127;
+  size(400, 540);
+  backgroundColor = randomColor();
   noStroke();
   cp5 = new ControlP5(this);
   oscP5 = new OscP5(this, MY_PORT);
@@ -45,6 +45,15 @@ void setup() {
     .setSize(60, 60)
     .setValue(leaveTrace)
     ;
+  sendMessage("backgroundcolor", backgroundColor);
+  MyColorPicker colorPicker = new MyColorPicker(cp5, "backgroundcolor");
+  colorPicker
+    .setColorValue(backgroundColor)
+    .setPosition(50, 250)
+    ;
+  colorPicker
+    .setItemSize(300, 60)
+    ;
 }
 
 void draw() {
@@ -53,6 +62,17 @@ void draw() {
 void attraction(float value) {
   println("attraction: " + value);
   sendMessage("attraction", value);
+}
+
+void backgroundcolor(color value) {
+  println("background color: " + value);
+  //sendMessage("backgroundcolor", value);
+  OscMessage msg = new OscMessage("/backgroundcolor");
+  msg.add(red(value));
+  msg.add(green(value));
+  msg.add(blue(value));
+  msg.add(alpha(value));
+  oscP5.send(msg, theOther);
 }
 
 void points(boolean value) {
