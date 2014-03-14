@@ -7,7 +7,7 @@ Maybe an image helps more to understand the concept:
 To describe more in depth what's happening, let's first explain from the beginning what the "original" Serendipiter sketch (the one at the left) does. First, we position a certain number of "artifacts" randomly on the canvas. These artifacts are objects with certain properties, e.g position, color... (in principle the color of each of them is also just randomly defined) Other global variables that affect the further behaviour of the sketch are:
 - Attraction: how much the artifacts will attract each other. With a negative value, they will repel each other. We use just each artifact's closest neighbour for the calculations.
 - backgroundColor: the background color.
-- clear: if true, clear the canvas at every draw iteration or not. If not, the artifacts will leave a trace.
+- clear: if true, clear the canvas at every draw iteration. If not, the artifacts will leave a trace.
 - drawPoints: if true, draw one point at the position of each artifact, using its color.
 - drawLines: if true, draw one line from each artifact to its closest neighbour.
 
