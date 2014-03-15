@@ -42,10 +42,10 @@ class Point extends Artifact {
     point(this.position.x, this.position.y);
   }
   public void update() {
-      this.position.x += this.speed.x;
-      this.position.y += this.speed.y;
-      this.speed.x += this.acceleration.x;
-      this.speed.y += this.acceleration.y;
+    this.position.x += this.speed.x;
+    this.position.y += this.speed.y;
+    this.speed.x += this.acceleration.x;
+    this.speed.y += this.acceleration.y;
   }
 }
 
