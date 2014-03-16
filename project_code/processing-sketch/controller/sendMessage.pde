@@ -15,11 +15,11 @@ void sendMessage(String parameter, boolean value) {
 void sendMessage(String parameter, float value) {
   OscMessage msg = new OscMessage("/" + parameter);
   msg.add(value);
-  oscP5.send(msg, theOther);
+  oscP5.send(msg, remoteAddress);
 }
 
 void sendMessage(String parameter, int value) {
   OscMessage msg = new OscMessage("/" + parameter);
   msg.add(value);
-  oscP5.send(msg, theOther);
+  oscP5.send(msg, remoteAddress);
 }

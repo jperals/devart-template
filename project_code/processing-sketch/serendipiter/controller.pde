@@ -1,21 +1,12 @@
-import java.util.AbstractMap;
-import java.util.Map;
-import netP5.*;
-//import org.processing.wiki.triangulate.*;
-import oscP5.*;
-
 public class Controller {
   ArrayList<Artifact> artifacts;
   ArrayList<Triangle> triangles;
-  NetAddress theOther;
-  OscP5 oscP5;
   Options options;
+  RemoteControlCommunication communication;
   Controller() {
-    artifacts = new ArrayList<Artifact>();
-    triangles = new ArrayList<Triangle>();
     options = new Options();
-    oscP5 = new OscP5(this, MY_PORT);
-    theOther = new NetAddress(OTHER_IP, OTHER_PORT);
+    communication = new RemoteControlCommunication(options);
+    artifacts = new ArrayList<Artifact>();
     for(int i = 0; i < options.numberOfArtifacts; i++) {
       Artifact artifact = new Point();
       artifacts.add(artifact);
@@ -40,7 +31,8 @@ public class Controller {
       }
       endShape();
     }
-    for(int i = 0; i < options.numberOfArtifacts; i++) {
+    int nArtifacts = artifacts.size();
+    for(int i = 0; i < nArtifacts; i++) {
       Artifact artifact = artifacts.get(i);
       Artifact closestArtifact = artifact.getClosestArtifact(artifacts);
       if(options.drawArtifacts) {
@@ -56,35 +48,12 @@ public class Controller {
       artifact.acceleration = new PVector(difference.x * options.attraction / options.mass, difference.y * options.attraction / options.mass);
     }
   }
-  void oscEvent(OscMessage msg) {
-    println("message recieved");
-    if(msg.checkAddrPattern("/attraction")) {
-      options.attraction = msg.get(0).floatValue();
-      println("attraction: " + options.attraction);
+  public void update() {
+    while(artifacts.size() < options.numberOfArtifacts) {
+      artifacts.add(new Point());
     }
-    if(msg.checkAddrPattern("/backgroundcolor")) {
-      float red = msg.get(0).floatValue();
-      float green = msg.get(1).floatValue();
-      float blue = msg.get(2).floatValue();
-      float alpha = msg.get(3).floatValue();
-      options.backgroundColor = color(red, green, blue, alpha);
-      println("background color: " + options.backgroundColor);
-    }
-    if(msg.checkAddrPattern("/drawlines")) {
-      options.drawLine = msg.get(0).intValue() == 1;
-      println("draw lines: " + options.drawLine);
-    }
-    if(msg.checkAddrPattern("/delaunay")) {
-      options.delaunay = msg.get(0).intValue() == 1;
-      println("draw Delaunay triangulation: " + options.delaunay);
-    }
-    if(msg.checkAddrPattern("/drawpoints")) {
-      options.drawArtifacts = msg.get(0).intValue() == 1;
-      println("draw artifacts: " + options.drawArtifacts);
-    }
-    if(msg.checkAddrPattern("/trace")) {
-      options.clear = msg.get(0).intValue() == 0;
-      println("clear: " + options.clear);
+    while(artifacts.size() > options.numberOfArtifacts) {
+      artifacts.remove(0);
     }
   }
 }

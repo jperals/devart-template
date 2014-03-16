@@ -2,12 +2,11 @@ public class Options {
   public boolean clear, delaunay, drawArtifacts, drawLine;
   public color backgroundColor;
   public float attraction, mass;
+  public float minAttraction = -0.005;
+  public float maxAttraction = 0.005;
   public int numberOfArtifacts;
-  private float minAttraction = -0.005;
-  private float maxAttraction = 0.005;
   public int minNumberOfArtifacts = 100;
   public int maxNumberOfArtifacts = 1000;
-
   Options() {
     backgroundColor = randomColor();
     clear = random(1) < 0.5;

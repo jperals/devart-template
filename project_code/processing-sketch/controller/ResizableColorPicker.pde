@@ -1,5 +1,5 @@
-class MyColorPicker extends ColorPicker {
-  MyColorPicker(ControlP5 cp5, String theName) {
+class ResizableColorPicker extends ColorPicker {
+  ResizableColorPicker(ControlP5 cp5, String theName) {
     super(cp5, cp5.getTab("default"), theName, 0, 0, 100, 10);
   }
  

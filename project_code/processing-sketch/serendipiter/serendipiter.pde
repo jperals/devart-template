@@ -10,6 +10,7 @@ void setup() {
 
 void draw() {
   controller.draw();
+  controller.update();
 }
 
 void keyPressed() {
