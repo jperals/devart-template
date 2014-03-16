@@ -4,18 +4,18 @@ class Artifact {
   public PVector position;
   public PVector speed;
   Artifact() {
-    this.acceleration = new PVector(0, 0);
-    this.baseColor = randomColor();
-    this.position = randomPosition();
-    this.speed = new PVector(0, 0);
+    acceleration = new PVector(0, 0);
+    baseColor = randomColor();
+    position = randomPosition();
+    speed = new PVector(0, 0);
   }
   public void display() {}
   public void update() {}
   public PVector differenceTo(Artifact artifact) {
-    return new PVector(artifact.position.x - this.position.x, artifact.position.y - this.position.y);
+    return new PVector(artifact.position.x - position.x, artifact.position.y - position.y);
   }
   public float distanceTo(Artifact artifact) {
-    return dist(this.position.x, this.position.y, artifact.position.x, artifact.position.y);
+    return dist(position.x, position.y, artifact.position.x, artifact.position.y);
   }
   public Artifact getClosestArtifact(ArrayList<Artifact> artifacts) {
     float minimumDistanceFound = -1;
@@ -23,7 +23,7 @@ class Artifact {
     int numberOfArtifacts = artifacts.size();
     for(int i = 0; i < numberOfArtifacts; i++) {
       Artifact artifact = artifacts.get(i);
-      float distance = this.distanceTo(artifact);
+      float distance = distanceTo(artifact);
       if(artifact != this && (minimumDistanceFound == -1 || closestArtifactFound == null || distance < minimumDistanceFound)) {
         minimumDistanceFound = distance;
         closestArtifactFound = artifact;
@@ -42,10 +42,10 @@ class Point extends Artifact {
     point(this.position.x, this.position.y);
   }
   public void update() {
-    this.position.x += this.speed.x;
-    this.position.y += this.speed.y;
-    this.speed.x += this.acceleration.x;
-    this.speed.y += this.acceleration.y;
+    position.x += speed.x;
+    position.y += speed.y;
+    speed.x += acceleration.x;
+    speed.y += acceleration.y;
   }
 }
 

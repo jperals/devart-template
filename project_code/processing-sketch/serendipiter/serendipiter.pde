@@ -1,12 +1,10 @@
 import java.util.Date;
-import netP5.*;
-import oscP5.*;
 
 Controller controller;
 
 void setup() {
   size(500, 500);
-  controller = new Controller(this);
+  controller = new Controller();
   //background(backgroundColor);
 }
 

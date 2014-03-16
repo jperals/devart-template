@@ -6,7 +6,7 @@ ControlP5 cp5;
 OscP5 oscP5;
 NetAddress theOther;
 
-boolean leaveTrace, drawPoints, drawLines;
+boolean leaveTrace, drawPoints, drawLines, drawDelaunay;
 color backgroundColor;
 float attractionValue;
 
@@ -35,15 +35,21 @@ void setup() {
     ;
   sendMessage("lines", drawLines);
   cp5.addToggle("lines")
-    .setPosition(170, 150)
+    .setPosition(130, 150)
     .setSize(60, 60)
     .setValue(drawLines)
     ;
   sendMessage("trace", leaveTrace);
   cp5.addToggle("trace")
-    .setPosition(290, 150)
+    .setPosition(210, 150)
     .setSize(60, 60)
     .setValue(leaveTrace)
+    ;
+  sendMessage("delaunay", drawDelaunay);
+  cp5.addToggle("delaunay")
+    .setPosition(290, 150)
+    .setSize(60, 60)
+    .setValue(drawDelaunay)
     ;
   sendMessage("backgroundcolor", backgroundColor);
   MyColorPicker colorPicker = new MyColorPicker(cp5, "backgroundcolor");
@@ -88,5 +94,10 @@ void lines(boolean value) {
 void trace(boolean value) {
   println("leave trace: " + value);
   sendMessage("trace", value);
+}
+
+void delaunay(boolean value) {
+  println("draw Delaunay triangulation: " + value);
+  sendMessage("delaunay", value);
 }
 

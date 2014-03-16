@@ -1,16 +1,21 @@
 import java.util.AbstractMap;
 import java.util.Map;
+import netP5.*;
+//import org.processing.wiki.triangulate.*;
+import oscP5.*;
 
 public class Controller {
   ArrayList<Artifact> artifacts;
+  ArrayList<Triangle> triangles;
   NetAddress theOther;
   OscP5 oscP5;
   Options options;
-  Controller(PApplet parentApplet) {
+  Controller() {
+    artifacts = new ArrayList<Artifact>();
+    triangles = new ArrayList<Triangle>();
     options = new Options();
     oscP5 = new OscP5(this, MY_PORT);
     theOther = new NetAddress(OTHER_IP, OTHER_PORT);
-    artifacts = new ArrayList<Artifact>();
     for(int i = 0; i < options.numberOfArtifacts; i++) {
       Artifact artifact = new Point();
       artifacts.add(artifact);
@@ -21,6 +26,19 @@ public class Controller {
       noStroke();
       fill(options.backgroundColor);
       rect(0, 0, width, height); // The background() function doesn't seem to allow the use of alpha, so we draw a rectangle instead
+    }
+    if(options.delaunay) {
+      triangles = Triangulate.triangulate(artifacts);
+      stroke(0, 40);
+      fill(0, 0, 0 ,0);
+      beginShape(TRIANGLES);
+      for (int i = 0; i < triangles.size(); i++) {
+        Triangle t = (Triangle)triangles.get(i);
+        vertex(t.p1.x, t.p1.y);
+        vertex(t.p2.x, t.p2.y);
+        vertex(t.p3.x, t.p3.y);
+      }
+      endShape();
     }
     for(int i = 0; i < options.numberOfArtifacts; i++) {
       Artifact artifact = artifacts.get(i);
@@ -55,6 +73,10 @@ public class Controller {
     if(msg.checkAddrPattern("/drawlines")) {
       options.drawLine = msg.get(0).intValue() == 1;
       println("draw lines: " + options.drawLine);
+    }
+    if(msg.checkAddrPattern("/delaunay")) {
+      options.delaunay = msg.get(0).intValue() == 1;
+      println("draw Delaunay triangulation: " + options.delaunay);
     }
     if(msg.checkAddrPattern("/drawpoints")) {
       options.drawArtifacts = msg.get(0).intValue() == 1;
