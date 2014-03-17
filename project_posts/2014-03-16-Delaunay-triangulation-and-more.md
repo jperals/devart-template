@@ -8,3 +8,5 @@ And it was about time to start adding some more vocabulary. So, today, Delaunay 
 This picture shows the effect of Delaunay triangulation (black) combined with my simple line-to-closest-neighbour rule (purple). When the artifacts move (because of attraction/repulsion forces) and the previous frames are not being cleared, the accumulation of Delaunay triangles creates a sort of "broken glass" effect.
 
 Voronoi tesselation might come soon, too. But also the need of a better, more meaningful treatment of color is calling my attention now.
+
+PS: Also a lot of fine tuning concerning the synchronisation between the two applets as well as a lot of refactoring has been going on.
