@@ -1,13 +1,13 @@
 void artifacts(int value) {
   println("Number of artifacts: " + value);
   sendMessage("number-of-artifacts", value);
-  options.numberOfArtifacts = value;
+  //options.numberOfArtifacts = value;
 }
 
 void attraction(float value) {
   println("Attraction: " + value);
   sendMessage("attraction", value);
-  options.attraction = value;
+  //options.attraction = value;
 }
 
 void backgroundcolor(color value) {
@@ -50,12 +50,12 @@ void trace(boolean value) {
 }
 
 void sendAll() {
-  attraction(attractionValue);
-  backgroundcolor(backgroundColor);
-  delaunay(drawDelaunay);
-  lines(drawLines);
-  points(drawPoints);
-  trace(leaveTrace);
+  attraction(options.attraction);
+  backgroundcolor(options.backgroundColor);
+  delaunay(options.delaunay);
+  lines(options.drawLine);
+  points(options.drawArtifacts);
+  trace(!options.clear);
 }
 
 void oscEvent(OscMessage msg) {

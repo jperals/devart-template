@@ -5,11 +5,6 @@ import oscP5.*;
 ControlP5 cp5;
 OscP5 oscP5;
 NetAddress remoteAddress;
-
-boolean leaveTrace, drawPoints, drawLines, drawDelaunay;
-color backgroundColor;
-float attractionValue, minAttraction, maxAttraction;
-int numberOfArtifacts, minNumberOfArtifacts, maxNumberOfArtifacts;
 Options options;
 
 void setup() {
