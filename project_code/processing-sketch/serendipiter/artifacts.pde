@@ -3,14 +3,22 @@ class Artifact {
   public color baseColor;
   public PVector position;
   public PVector speed;
+  ArrayList<Triangle> triangles;
   Artifact() {
     acceleration = new PVector(0, 0);
     baseColor = randomColor();
     position = randomPosition();
     speed = new PVector(0, 0);
+    triangles = new ArrayList<Triangle>();
+  }
+  public void addTriangle(Triangle t) {
+    triangles.add(t);
   }
   public void display() {}
-  public void update() {}
+  public void update() {
+    triangles.clear();
+    //println("clear triangles");
+  }
   public PVector differenceTo(Artifact artifact) {
     return new PVector(artifact.position.x - position.x, artifact.position.y - position.y);
   }
@@ -31,6 +39,32 @@ class Artifact {
     }
     return closestArtifactFound;
   }
+  public void drawVoronoi() {
+    Voronoi voronoi = new Voronoi(position);
+    ArrayList<PVector> circumcenters = voronoi.getCircumcenters(triangles);
+    int nCircumcenters = circumcenters.size();
+    //voronoiShape.fill(255, 63, 127);
+    //println("nTriangles: " + triangles.size());
+    //println("nPoints: " + nPoints);    
+    if(nCircumcenters > 2) {
+      pushStyle();
+      noStroke();
+      //stroke(255,0,0);
+      noFill();
+      PShape voronoiShape = createShape();
+      voronoiShape.beginShape();
+      voronoiShape.fill(baseColor, 10);
+      for(int i = 0; i < nCircumcenters; i++) {
+        PVector point = circumcenters.get(i);
+        //println("x: " + point.x + ", y: " + point.y);
+        voronoiShape.vertex(point.x, point.y);
+        //point(point.x, point.y);
+      }
+      voronoiShape.endShape();
+      shape(voronoiShape, 0, 0);
+      popStyle();
+    }
+  }
 }
 
 class Point extends Artifact {
@@ -39,9 +73,11 @@ class Point extends Artifact {
   }
   public void display() {
     stroke(this.baseColor);
-    point(this.position.x, this.position.y);
+    point(position.x, position.y);
   }
   public void update() {
+    triangles.clear();
+    //println("clear triangles");
     position.x += speed.x;
     position.y += speed.y;
     speed.x += acceleration.x;

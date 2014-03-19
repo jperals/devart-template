@@ -155,7 +155,8 @@ public static class Triangulate {
     pIter = artifacts.iterator();
     while (pIter.hasNext()) {
     
-      PVector p = (PVector)pIter.next().position;
+      Artifact artifact = pIter.next();
+      PVector p = artifact.position;
       
       edges.clear();
       
@@ -184,8 +185,11 @@ public static class Triangulate {
           edges.add(new Edge(t.p2, t.p3));
           edges.add(new Edge(t.p3, t.p1));
           triangles.remove(j);
+          t = null;
         }
-                
+        /*if((t.p1.x == p.x && t.p1.y == p.y) || (t.p2.x == p.x && t.p2.y == p.y) || (t.p3.x == p.x && t.p3.y == p.y) {
+          artifact.addTriangle(t);
+        }*/
       }
 
       /*
@@ -223,7 +227,11 @@ public static class Triangulate {
         if (e.p1 == null || e.p2 == null) {
           continue;
         }
-        triangles.add(new Triangle(e.p1, e.p2, p));
+        Triangle triangle = new Triangle(e.p1, e.p2, p);
+        triangles.add(triangle);
+        /*if(!triangle.sharesVertex(superTriangle)) {
+          artifact.addTriangle(triangle);
+        }*/
       }
       
     }
@@ -235,6 +243,8 @@ public static class Triangulate {
       Triangle t = (Triangle)triangles.get(i);
       if (t.sharesVertex(superTriangle)) {
         triangles.remove(i);
+        //println("remove triangle");
+        //t = null;
       }
     }
 

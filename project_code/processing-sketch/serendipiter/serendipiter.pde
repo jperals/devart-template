@@ -3,9 +3,8 @@ import java.util.Date;
 Controller controller;
 
 void setup() {
-  size(500, 500);
+  size(500, 500, P2D);
   controller = new Controller();
-  //background(backgroundColor);
 }
 
 void draw() {
