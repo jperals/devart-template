@@ -27,14 +27,19 @@ void addControls(ControlP5 cp5, Options options) {
     .setValue(!options.clear)
     ;
   cp5.addToggle("delaunay")
-    .setPosition(290, 250)
+    .setPosition(50, 350)
     .setSize(60, 60)
     .setValue(options.delaunay)
+    ;
+  cp5.addToggle("voronoi")
+    .setPosition(130, 350)
+    .setSize(60, 60)
+    .setValue(options.voronoi)
     ;
   ResizableColorPicker colorPicker = new ResizableColorPicker(cp5, "backgroundcolor");
   colorPicker
     .setColorValue(options.backgroundColor)
-    .setPosition(50, 350)
+    .setPosition(50, 450)
     ;
   colorPicker
     .setItemSize(300, 60)

@@ -3,15 +3,15 @@ class Artifact {
   public color baseColor;
   public PVector position;
   public PVector speed;
-  ArrayList<Triangle> triangles;
+  ArrayList<DelaunayTriangle> triangles;
   Artifact() {
     acceleration = new PVector(0, 0);
     baseColor = randomColor();
     position = randomPosition();
     speed = new PVector(0, 0);
-    triangles = new ArrayList<Triangle>();
+    triangles = new ArrayList<DelaunayTriangle>();
   }
-  public void addTriangle(Triangle t) {
+  public void addTriangle(DelaunayTriangle t) {
     triangles.add(t);
   }
   public void display() {}
@@ -60,8 +60,8 @@ class Artifact {
         voronoiShape.vertex(point.x, point.y);
         //point(point.x, point.y);
       }
-      voronoiShape.endShape();
-      shape(voronoiShape, 0, 0);
+      voronoiShape.endShape(CLOSE);
+      shape(voronoiShape);
       popStyle();
     }
   }

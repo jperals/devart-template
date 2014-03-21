@@ -48,6 +48,10 @@ public class RemoteControlCommunication {
       options.clear = msg.get(0).intValue() == 0;
       println("Clear: " + options.clear);
     }
+    if(msg.checkAddrPattern("/voronoi")) {
+      options.voronoi = msg.get(0).intValue() == 1;
+      println("Draw Voronoi tesselation: " + options.voronoi);
+    }
   }
 }
 

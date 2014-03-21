@@ -17,8 +17,9 @@ public class Options {
     attraction = random(minAttraction, maxAttraction);
     mass = 100;
     numberOfArtifacts = int(random(minNumberOfArtifacts, maxNumberOfArtifacts));
-    //voronoi = random(1) < 0.5;
-    voronoi = true;
+    voronoi = random(1) < 0.5;
+    //voronoi = true;
+    //voronoi = false;
     println("Attraction: " + attraction);
     println("Draw artifacts: " + drawArtifacts);
     println("Draw line: " + drawLine);

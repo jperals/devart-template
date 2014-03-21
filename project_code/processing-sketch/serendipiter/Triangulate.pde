@@ -7,7 +7,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import org.processing.wiki.triangulate.Edge;
-import org.processing.wiki.triangulate.Triangle;
 
 public static class Triangulate {
 
@@ -48,7 +47,7 @@ public static class Triangulate {
     The circumcircle centre is returned in (xc,yc) and the radius r
     NOTE: A point on the edge is inside the circumcircle
   */
-  private static boolean circumCircle(PVector p, Triangle t, PVector circle) {
+  private static boolean circumCircle(PVector p, DelaunayTriangle t, PVector circle) {
 
     float m1,m2,mx1,mx2,my1,my2;
     float dx,dy,rsqr,drsqr;
@@ -103,7 +102,7 @@ public static class Triangulate {
     Returned is a list of triangular faces in the ArrayList triangles 
     These triangles are arranged in a consistent clockwise order.
   */
-  public static ArrayList<Triangle> triangulate( ArrayList<Artifact> artifacts ) {
+  public static ArrayList<DelaunayTriangle> triangulate( ArrayList<Artifact> artifacts ) {
   
     // sort vertex array in increasing x values
     Collections.sort(artifacts, new XComparator());
@@ -132,8 +131,8 @@ public static class Triangulate {
     float xmid = (xmax + xmin) / 2.0f;
     float ymid = (ymax + ymin) / 2.0f;
   
-    ArrayList<Triangle> triangles = new ArrayList<Triangle>(); // for the Triangles
-    HashSet<Triangle> complete = new HashSet<Triangle>(); // for complete Triangles
+    ArrayList<DelaunayTriangle> triangles = new ArrayList<DelaunayTriangle>(); // for the Triangles
+    HashSet<DelaunayTriangle> complete = new HashSet<DelaunayTriangle>(); // for complete Triangles
 
     /*
       Set up the supertriangle
@@ -142,10 +141,11 @@ public static class Triangulate {
       vertex list. The supertriangle is the first triangle in
       the triangle list.
     */
-    Triangle superTriangle = new Triangle();
+    DelaunayTriangle superTriangle = new DelaunayTriangle();
     superTriangle.p1 = new PVector( xmid - 2.0f * dmax, ymid - dmax, 0.0f );
     superTriangle.p2 = new PVector( xmid, ymid + 2.0f * dmax, 0.0f );
     superTriangle.p3 = new PVector( xmid + 2.0f * dmax, ymid - dmax, 0.0f );
+    //superTriangle.artifacts.add(artifact);
     triangles.add(superTriangle);
     
     /*
@@ -170,7 +170,7 @@ public static class Triangulate {
       
       for (int j = triangles.size()-1; j >= 0; j--) {
       
-        Triangle t = (Triangle)triangles.get(j);
+        DelaunayTriangle t = (DelaunayTriangle)triangles.get(j);
         if (complete.contains(t)) {
           continue;
         }
@@ -227,7 +227,7 @@ public static class Triangulate {
         if (e.p1 == null || e.p2 == null) {
           continue;
         }
-        Triangle triangle = new Triangle(e.p1, e.p2, p);
+        DelaunayTriangle triangle = new DelaunayTriangle(e.p1, e.p2, p, artifact);
         triangles.add(triangle);
         /*if(!triangle.sharesVertex(superTriangle)) {
           artifact.addTriangle(triangle);
@@ -240,7 +240,7 @@ public static class Triangulate {
       Remove triangles with supertriangle vertices
     */
     for (int i = triangles.size()-1; i >= 0; i--) {
-      Triangle t = (Triangle)triangles.get(i);
+      DelaunayTriangle t = (DelaunayTriangle)triangles.get(i);
       if (t.sharesVertex(superTriangle)) {
         triangles.remove(i);
         //println("remove triangle");

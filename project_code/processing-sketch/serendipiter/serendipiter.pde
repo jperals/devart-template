@@ -3,7 +3,7 @@ import java.util.Date;
 Controller controller;
 
 void setup() {
-  size(500, 500, P2D);
+  size(500, 500);
   controller = new Controller();
 }
 

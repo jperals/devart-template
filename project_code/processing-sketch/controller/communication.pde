@@ -37,6 +37,12 @@ void lines(boolean value) {
   options.drawLine = value;
 }
 
+void voronoi(boolean value) {
+  println("Draw Voronoi tesselation: " + value);
+  sendMessage("voronoi", value);
+  //options.voronoi = value;
+}
+
 void points(boolean value) {
   println("Draw points: " + value);
   sendMessage("draw-points", value);
@@ -56,6 +62,7 @@ void sendAll() {
   lines(options.drawLine);
   points(options.drawArtifacts);
   trace(!options.clear);
+  voronoi(options.voronoi);
 }
 
 void oscEvent(OscMessage msg) {

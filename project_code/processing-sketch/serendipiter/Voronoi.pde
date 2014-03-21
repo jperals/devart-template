@@ -15,11 +15,11 @@ public class Voronoi {
         }
       }
   }
-  public ArrayList<PVector> getCircumcenters(ArrayList<Triangle> triangles) {
+  public ArrayList<PVector> getCircumcenters(ArrayList<DelaunayTriangle> triangles) {
     ArrayList<PVector> points = new ArrayList<PVector>();
     int nTriangles = triangles.size();
     for(int i = 0; i < nTriangles; i++) {
-      Triangle t = triangles.get(i);
+      DelaunayTriangle t = triangles.get(i);
       if(t == null) {
         println("triangle is null");
         continue;
@@ -30,29 +30,6 @@ public class Voronoi {
       PVector samplePoint2 = new PVector(origin2.x + (origin2.y - t.p2.y), origin2.y - (origin2.x - t.p2.x));
       PVector circumCenter = lineIntersection(origin1.x, origin1.y, samplePoint1.x, samplePoint1.y, origin2.x, origin2.y, samplePoint2.x, samplePoint2.y);
       points.add(new PVector(circumCenter.x, circumCenter.y));
-      /*println("debug:");
-      println("t");
-      println(t.p1.x);
-      println(t.p1.y);
-      println(t.p2.x);
-      println(t.p2.y);
-      println(t.p3.x);
-      println(t.p3.y);
-      println("origin1");
-      println(origin1.x);
-      println(origin1.y);
-      println("samplePoint1");
-      println(samplePoint1.x);
-      println(samplePoint1.y);
-      println("origin2");
-      println(origin2.x);
-      println(origin2.y);
-      println("samplePoint2");
-      println(samplePoint2.x);
-      println(samplePoint2.y);
-      println("circumCenter");
-      println(circumCenter.x);
-      println(circumCenter.y);*/
     }
     Collections.sort(points, new slopeComparator());
     return points;

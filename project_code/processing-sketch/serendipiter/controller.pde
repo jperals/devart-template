@@ -1,6 +1,6 @@
 public class Controller {
   ArrayList<Artifact> artifacts;
-  ArrayList<Triangle> triangles;
+  ArrayList<DelaunayTriangle> triangles;
   Options options;
   RemoteControlCommunication communication;
   Controller() {
@@ -25,10 +25,14 @@ public class Controller {
         fill(0, 0, 0 ,0);
         beginShape(TRIANGLES);
         for (int i = 0; i < triangles.size(); i++) {
-          Triangle t = (Triangle)triangles.get(i);
+          DelaunayTriangle t = (DelaunayTriangle)triangles.get(i);
           vertex(t.p1.x, t.p1.y);
           vertex(t.p2.x, t.p2.y);
           vertex(t.p3.x, t.p3.y);
+          /*int nArtifacts = t.artifacts.size();
+          for(int j = 0; j < nArtifacts; j++) {
+            t.artifacts.get(j).addTriangle(t);
+          }*/
         }
         endShape();
       }
@@ -38,9 +42,11 @@ public class Controller {
       Artifact artifact = artifacts.get(i);
       if(options.voronoi) {
         PVector p = artifact.position;
-        for (int j = 0; j < triangles.size(); j++) {
-          Triangle triangle = (Triangle)triangles.get(j);
+        int nTriangles = triangles.size();
+        for (int j = 0; j <nTriangles; j++) {
+          DelaunayTriangle triangle = (DelaunayTriangle)triangles.get(j);
           if((triangle.p1.x == p.x && triangle.p1.y == p.y) || (triangle.p2.x == p.x && triangle.p2.y == p.y) || (triangle.p3.x == p.x && triangle.p3.y == p.y)) {
+          //if(triangle.artifacts.contains(artifact)) {
             artifact.addTriangle(triangle);
           }
         }
