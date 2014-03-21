@@ -48,20 +48,16 @@ class Artifact {
     //println("nPoints: " + nPoints);    
     if(nCircumcenters > 2) {
       pushStyle();
-      noStroke();
-      //stroke(255,0,0);
-      noFill();
-      PShape voronoiShape = createShape();
-      voronoiShape.beginShape();
-      voronoiShape.fill(baseColor, 10);
-      for(int i = 0; i < nCircumcenters; i++) {
+      stroke(this.baseColor);
+      fill(this.baseColor);
+      PVector firstPoint = circumcenters.get(0);
+      PVector lastPoint = firstPoint;
+      for(int i = 1; i < nCircumcenters; i++) {
         PVector point = circumcenters.get(i);
-        //println("x: " + point.x + ", y: " + point.y);
-        voronoiShape.vertex(point.x, point.y);
-        //point(point.x, point.y);
+        triangle(this.position.x, this.position.y, lastPoint.x, lastPoint.y, point.x, point.y);
+        lastPoint = point;
       }
-      voronoiShape.endShape(CLOSE);
-      shape(voronoiShape);
+      triangle(this.position.x, this.position.y, lastPoint.x, lastPoint.y, firstPoint.x, firstPoint.y);
       popStyle();
     }
   }

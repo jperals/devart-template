@@ -5,8 +5,8 @@ public class Options {
   public int numberOfArtifacts;
   private float minAttraction = -0.005;
   private float maxAttraction = 0.005;
-  public int minNumberOfArtifacts = 30;
-  public int maxNumberOfArtifacts = 100;
+  public int minNumberOfArtifacts = 100;
+  public int maxNumberOfArtifacts = 300;
 
   Options() {
     backgroundColor = randomColor();
@@ -18,8 +18,6 @@ public class Options {
     mass = 100;
     numberOfArtifacts = int(random(minNumberOfArtifacts, maxNumberOfArtifacts));
     this.voronoi = random(1) < 0.5;
-    //voronoi = true;
-    //voronoi = false;
     println("Attraction: " + attraction);
     println("Draw artifacts: " + drawArtifacts);
     println("Draw line: " + drawLine);
