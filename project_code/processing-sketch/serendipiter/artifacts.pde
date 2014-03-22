@@ -46,13 +46,8 @@ public class Artifact {
     Voronoi voronoi = new Voronoi(position);
     ArrayList<PVector> circumcenters = voronoi.getCircumcenters(triangles);
     int nCircumcenters = circumcenters.size();
-    //voronoiShape.fill(255, 63, 127);
-    //println("nTriangles: " + triangles.size());
-    //println("nPoints: " + nPoints);    
     if(nCircumcenters > 2) {
       pushStyle();
-      stroke(this.baseColor);
-      strokeWeight(0.5);
       fill(this.baseColor);
       PVector firstPoint = circumcenters.get(0);
       PVector lastPoint = firstPoint;
