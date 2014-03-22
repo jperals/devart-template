@@ -6,7 +6,7 @@ public class Options {
   private float minAttraction = -0.005;
   private float maxAttraction = 0.005;
   public int minNumberOfArtifacts = 100;
-  public int maxNumberOfArtifacts = 300;
+  public int maxNumberOfArtifacts = 3000;
 
   Options() {
     backgroundColor = randomColor();
