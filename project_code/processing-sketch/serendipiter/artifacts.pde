@@ -67,12 +67,13 @@ class Point extends Artifact {
     super();
   }
   public void display() {
+    pushStyle();
     stroke(this.baseColor);
     point(position.x, position.y);
+    popStyle();
   }
   public void update() {
     triangles.clear();
-    //println("clear triangles");
     position.x += speed.x;
     position.y += speed.y;
     speed.x += acceleration.x;

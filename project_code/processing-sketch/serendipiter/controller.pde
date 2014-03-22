@@ -55,8 +55,10 @@ public class Controller {
       }
       if(options.drawLine) {
         color lineColor = lerpColor(artifact.baseColor, closestArtifact.baseColor, 0.5);
+        pushStyle();
         stroke(lineColor);
         line(artifact.position.x, artifact.position.y, closestArtifact.position.x, closestArtifact.position.y);
+        popStyle();
       }
       artifact.update();
       PVector difference = artifact.differenceTo(closestArtifact);
