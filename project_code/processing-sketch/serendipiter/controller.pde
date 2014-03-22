@@ -78,8 +78,7 @@ public class Controller {
       restart();
       restartRequested = false;
     }
-    if(exportingGif && frameCount % 50 == 0) {
-    //if(exportingGif) {
+    if(exportingGif && frameCount % options.gifFrameDelay == 0) {
       gifMaker.addFrame();
     }
     while(artifacts.size() < options.numberOfArtifacts) {

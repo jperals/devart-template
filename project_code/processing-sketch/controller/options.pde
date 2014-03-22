@@ -2,11 +2,12 @@ public class Options {
   public boolean clear, delaunay, drawArtifacts, drawLine, voronoi;
   public color backgroundColor;
   public float attraction, mass;
-  public int numberOfArtifacts;
   private float minAttraction = -0.005;
   private float maxAttraction = 0.005;
+  public int gifFrameDelay;
   public int minNumberOfArtifacts = 100;
   public int maxNumberOfArtifacts = 3000;
+  public int numberOfArtifacts;
 
   Options() {
     backgroundColor = randomColor();
@@ -16,8 +17,9 @@ public class Options {
     drawLine = !drawArtifacts || random(1) < 0.5;
     attraction = random(minAttraction, maxAttraction);
     mass = 100;
+    gifFrameDelay = 50;
     numberOfArtifacts = int(random(minNumberOfArtifacts, maxNumberOfArtifacts));
-    this.voronoi = random(1) < 0.5;
+    voronoi = random(1) < 0.5;
     println("Attraction: " + attraction);
     println("Draw artifacts: " + drawArtifacts);
     println("Draw line: " + drawLine);
