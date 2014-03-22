@@ -1,17 +1,22 @@
+import gifAnimation.*;
+import java.util.Date;
+
 public class Controller {
   ArrayList<Artifact> artifacts;
-  boolean restartRequested;
-  DelaunayTriangulation delaunay;
   ArrayList<DelaunayTriangle> triangles;
+  boolean restartRequested, exportingGif;
+  DelaunayTriangulation delaunay;
+  GifMaker gifMaker;
   Options options;
   RemoteControlCommunication communication;
   Triangulate triangulate;
-  Controller() {
+  Controller(PApplet applet) {
+    restartRequested = false;
+    exportingGif = false;
     delaunay = new DelaunayTriangulation();
     options = new Options();
     communication = new RemoteControlCommunication(this, options);
     artifacts = new ArrayList<Artifact>();
-    restartRequested = false;
     triangulate = new Triangulate();
     triangles = new ArrayList<DelaunayTriangle>();
     createArtifacts();
@@ -73,6 +78,10 @@ public class Controller {
       restart();
       restartRequested = false;
     }
+    if(exportingGif && frameCount % 50 == 0) {
+    //if(exportingGif) {
+      gifMaker.addFrame();
+    }
     while(artifacts.size() < options.numberOfArtifacts) {
       artifacts.add(new Point());
     }
@@ -86,5 +95,17 @@ public class Controller {
   }
   public void requestRestart() {
     restartRequested = true;
+  }
+  public void toggleGifExport(PApplet applet) {
+    exportingGif = !exportingGif;
+    if(exportingGif) {
+      if(gifMaker != null) {
+        gifMaker.finish();
+      }
+      Date date = new Date(); // Including the system time in the screenshot file name allows us to keep any screenshots we want instead of overriding the same file all the time
+      String formattedDate = new java.text.SimpleDateFormat("yyyy-MM-dd.kk.mm.ss").format(date.getTime());
+      gifMaker = new GifMaker(applet, "screenshot-" + formattedDate + "-" + frameCount + ".gif");
+      gifMaker.setRepeat(0);
+    }
   }
 }
