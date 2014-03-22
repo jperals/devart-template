@@ -6,9 +6,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
-import org.processing.wiki.triangulate.Edge;
 
-public static class Triangulate {
+public class Triangulate {
 
   /*
     From P Bourke's C prototype - 
@@ -27,7 +26,7 @@ public static class Triangulate {
         return(0);
     }
   */
-  private static class XComparator implements Comparator<Artifact> {
+  private class XComparator implements Comparator<Artifact> {
     
     public int compare(Artifact p1, Artifact p2) {
       if (p1.position.x < p2.position.x) {
@@ -47,7 +46,7 @@ public static class Triangulate {
     The circumcircle centre is returned in (xc,yc) and the radius r
     NOTE: A point on the edge is inside the circumcircle
   */
-  private static boolean circumCircle(PVector p, DelaunayTriangle t, PVector circle) {
+  private boolean circumCircle(PVector p, DelaunayTriangle t, PVector circle) {
 
     float m1,m2,mx1,mx2,my1,my2;
     float dx,dy,rsqr,drsqr;
@@ -95,6 +94,8 @@ public static class Triangulate {
     return drsqr <= rsqr;
   }
 
+  Triangulate() {
+  }
 
   /*
     Triangulation subroutine
@@ -102,7 +103,7 @@ public static class Triangulate {
     Returned is a list of triangular faces in the ArrayList triangles 
     These triangles are arranged in a consistent clockwise order.
   */
-  public static ArrayList<DelaunayTriangle> triangulate( ArrayList<Artifact> artifacts ) {
+  public ArrayList<DelaunayTriangle> triangulate( ArrayList<Artifact> artifacts ) {
   
     // sort vertex array in increasing x values
     Collections.sort(artifacts, new XComparator());
@@ -141,11 +142,10 @@ public static class Triangulate {
       vertex list. The supertriangle is the first triangle in
       the triangle list.
     */
-    DelaunayTriangle superTriangle = new DelaunayTriangle();
-    superTriangle.p1 = new PVector( xmid - 2.0f * dmax, ymid - dmax, 0.0f );
-    superTriangle.p2 = new PVector( xmid, ymid + 2.0f * dmax, 0.0f );
-    superTriangle.p3 = new PVector( xmid + 2.0f * dmax, ymid - dmax, 0.0f );
-    //superTriangle.artifacts.add(artifact);
+    Artifact a1 = new Artifact( xmid - 2.0f * dmax, ymid - dmax);
+    Artifact a2 = new Artifact( xmid, ymid + 2.0f * dmax);
+    Artifact a3 = new Artifact( xmid + 2.0f * dmax, ymid - dmax);
+    DelaunayTriangle superTriangle = new DelaunayTriangle(a1, a2, a3);
     triangles.add(superTriangle);
     
     /*
@@ -181,9 +181,9 @@ public static class Triangulate {
           complete.add(t);
         }
         if (inside) {
-          edges.add(new Edge(t.p1, t.p2));
-          edges.add(new Edge(t.p2, t.p3));
-          edges.add(new Edge(t.p3, t.p1));
+          edges.add(new Edge(t.a1, t.a2));
+          edges.add(new Edge(t.a2, t.a3));
+          edges.add(new Edge(t.a3, t.a1));
           triangles.remove(j);
           t = null;
         }
@@ -227,7 +227,8 @@ public static class Triangulate {
         if (e.p1 == null || e.p2 == null) {
           continue;
         }
-        DelaunayTriangle triangle = new DelaunayTriangle(e.p1, e.p2, p, artifact);
+        //println(p);
+        DelaunayTriangle triangle = new DelaunayTriangle(e.a1, e.a2, artifact);
         triangles.add(triangle);
         /*if(!triangle.sharesVertex(superTriangle)) {
           artifact.addTriangle(triangle);

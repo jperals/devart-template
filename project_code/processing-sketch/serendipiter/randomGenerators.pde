@@ -11,10 +11,22 @@ color randomColor() {
 }
 
 PVector randomPosition(int w, int h) {
-  return new PVector(random(-0.5, 1.5)*w, random(-0.5, 1.5)*h); // This will return also positions out from the visible screen
+  return new PVector(randomCoordinate(w), randomCoordinate(h));
 }
 
 PVector randomPosition() {
   return randomPosition(width, height);
+}
+
+float randomX() {
+  return randomCoordinate(width);
+}
+
+float randomY() {
+  return randomCoordinate(height);
+}
+
+float randomCoordinate(float visibleRange) {
+  return random(-0.5, 1.5)*visibleRange; // This will return also positions out from the visible screen
 }
 

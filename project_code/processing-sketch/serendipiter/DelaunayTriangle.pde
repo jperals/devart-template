@@ -1,29 +1,28 @@
-public static class DelaunayTriangle {
+public class DelaunayTriangle {
 
-  public ArrayList<Artifact> artifacts;
+  public Artifact a1, a2, a3;
   
   public PVector p1, p2, p3;
   
   public DelaunayTriangle() {
-    artifacts = new ArrayList<Artifact>();
     p1=null;
     p2=null;
     p3=null; 
   }
   
   public DelaunayTriangle(PVector p1, PVector p2, PVector p3) {
-    artifacts = new ArrayList<Artifact>();
     this.p1 = p1;
     this.p2 = p2;
     this.p3 = p3;
   }
   
-  public DelaunayTriangle(PVector p1, PVector p2, PVector p3, Artifact artifact) {
-    this.artifacts = new ArrayList<Artifact>();
-    this.artifacts.add(artifact);
-    this.p1 = p1;
-    this.p2 = p2;
-    this.p3 = p3;
+  public DelaunayTriangle(Artifact a1, Artifact a2, Artifact a3) {
+    this.a1 = a1;
+    this.a2 = a2;
+    this.a3 = a3;
+    this.p1 = a1.position;
+    this.p2 = a2.position;
+    this.p3 = a3.position;
   }
   
   public boolean sharesVertex(DelaunayTriangle other) {

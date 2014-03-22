@@ -1,13 +1,16 @@
-class Artifact {
+public class Artifact {
   public PVector acceleration;
   public color baseColor;
   public PVector position;
   public PVector speed;
   ArrayList<DelaunayTriangle> triangles;
   Artifact() {
+    this(randomX(), randomY());
+  }
+  Artifact(float x, float y) {
     acceleration = new PVector(0, 0);
     baseColor = randomColor();
-    position = randomPosition();
+    position = new PVector(x, y);
     speed = new PVector(0, 0);
     triangles = new ArrayList<DelaunayTriangle>();
   }
@@ -49,6 +52,7 @@ class Artifact {
     if(nCircumcenters > 2) {
       pushStyle();
       stroke(this.baseColor);
+      strokeWeight(0.5);
       fill(this.baseColor);
       PVector firstPoint = circumcenters.get(0);
       PVector lastPoint = firstPoint;

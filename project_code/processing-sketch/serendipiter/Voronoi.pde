@@ -7,12 +7,11 @@ public class Voronoi {
       public int compare(PVector p1, PVector p2) {
         PVector d1 = new PVector(p1.x-artifactPosition.x, p1.y-artifactPosition.y);
         PVector d2 = new PVector(p2.x-artifactPosition.x, p2.y-artifactPosition.y);
-        if(d1.heading() > d2.heading()) {
-          return(1);
-        }
-        else {
-          return(-1);
-        }
+        float h1 = d1.heading();
+        float h2 = d2.heading();
+        if(h1 > h2) return 1;
+        if(h1 < h2) return -1;
+        return 0;
       }
   }
   public ArrayList<PVector> getCircumcenters(ArrayList<DelaunayTriangle> triangles) {
