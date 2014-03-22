@@ -1,6 +1,9 @@
 public class Artifact {
   public PVector acceleration;
   public color baseColor;
+  public Artifact closestArtifact;
+  public color displayColor;
+  public float distanceToClosestArtifact;
   public PVector position;
   public PVector speed;
   ArrayList<DelaunayTriangle> triangles;
@@ -10,6 +13,9 @@ public class Artifact {
   Artifact(float x, float y) {
     acceleration = new PVector(0, 0);
     baseColor = randomColor();
+    closestArtifact = this;
+    displayColor = baseColor;
+    distanceToClosestArtifact = -1;
     position = new PVector(x, y);
     speed = new PVector(0, 0);
     triangles = new ArrayList<DelaunayTriangle>();
@@ -20,7 +26,13 @@ public class Artifact {
   public void display() {}
   public void update() {
     triangles.clear();
-    //println("clear triangles");
+    position.x += speed.x;
+    position.y += speed.y;
+    speed.x += acceleration.x;
+    speed.y += acceleration.y;
+    float lerpAmount = 0.5/distanceToClosestArtifact;
+    displayColor = lerpColor(baseColor, closestArtifact.baseColor, lerpAmount);
+    baseColor = displayColor;
   }
   public PVector differenceTo(Artifact artifact) {
     return new PVector(artifact.position.x - position.x, artifact.position.y - position.y);
@@ -40,6 +52,8 @@ public class Artifact {
         closestArtifactFound = artifact;
       }
     }
+    closestArtifact = closestArtifactFound;
+    distanceToClosestArtifact = minimumDistanceFound;
     return closestArtifactFound;
   }
   public void drawVoronoi() {
@@ -48,7 +62,8 @@ public class Artifact {
     int nCircumcenters = circumcenters.size();
     if(nCircumcenters > 2) {
       pushStyle();
-      fill(this.baseColor);
+      fill(displayColor);
+      noStroke();
       PVector firstPoint = circumcenters.get(0);
       PVector lastPoint = firstPoint;
       for(int i = 1; i < nCircumcenters; i++) {
@@ -68,16 +83,9 @@ class Point extends Artifact {
   }
   public void display() {
     pushStyle();
-    stroke(this.baseColor);
+    stroke(displayColor);
     point(position.x, position.y);
     popStyle();
-  }
-  public void update() {
-    triangles.clear();
-    position.x += speed.x;
-    position.y += speed.y;
-    speed.x += acceleration.x;
-    speed.y += acceleration.y;
   }
 }
 

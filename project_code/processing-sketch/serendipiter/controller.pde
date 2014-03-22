@@ -24,9 +24,11 @@ public class Controller {
   }
   public void draw() {
     if(options.clear) {
+      pushStyle();
       noStroke();
       fill(options.backgroundColor);
       rect(0, 0, width, height); // The background() function doesn't seem to allow the use of alpha, so we draw a rectangle instead
+      popStyle();
     }
     if(options.delaunay || options.voronoi) {
       triangles = triangulate.triangulate(artifacts);
@@ -35,11 +37,9 @@ public class Controller {
     for(int i = 0; i < nArtifacts; i++) {
       Artifact artifact = artifacts.get(i);
       if(options.voronoi ) {
-        //PVector p = artifact.position;
         int nTriangles = triangles.size();
         for (int j = 0; j <nTriangles; j++) {
           DelaunayTriangle triangle = (DelaunayTriangle)triangles.get(j);
-          //if((triangle.p1.x == p.x && triangle.p1.y == p.y) || (triangle.p2.x == p.x && triangle.p2.y == p.y) || (triangle.p3.x == p.x && triangle.p3.y == p.y)) {
           if(triangle.a1 == artifact || triangle.a2 == artifact || triangle.a3 == artifact) {
             artifact.addTriangle(triangle);
           }
