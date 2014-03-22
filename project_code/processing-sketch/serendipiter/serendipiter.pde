@@ -4,7 +4,7 @@ Controller controller;
 
 void setup() {
   size(500, 500);
-  controller = new Controller();
+  controller = new Controller(this);
 }
 
 void draw() {
@@ -14,6 +14,9 @@ void draw() {
 
 void keyPressed() {
   switch(key) {
+  case 'g':
+    controller.toggleGifExport(this);
+    break; 
   case 's':
     Date date = new Date(); // Including the system time in the screenshot file name allows us to keep any screenshots we want instead of overriding the same file all the time
     String formattedDate = new java.text.SimpleDateFormat("yyyy-MM-dd.kk.mm.ss").format(date.getTime());

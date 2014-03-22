@@ -31,8 +31,7 @@ public class Artifact {
     speed.x += acceleration.x;
     speed.y += acceleration.y;
     float lerpAmount = 0.5/distanceToClosestArtifact;
-    displayColor = lerpColor(baseColor, closestArtifact.baseColor, lerpAmount);
-    baseColor = displayColor;
+    displayColor = lerpColor(displayColor, closestArtifact.displayColor, lerpAmount);
   }
   public PVector differenceTo(Artifact artifact) {
     return new PVector(artifact.position.x - position.x, artifact.position.y - position.y);
