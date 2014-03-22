@@ -27,6 +27,6 @@ float randomY() {
 }
 
 float randomCoordinate(float visibleRange) {
-  return random(-0.5, 1.5)*visibleRange; // This will return also positions out from the visible screen
+  return random(-0.25, 1.25)*visibleRange; // This will return also positions out from the visible screen
 }
 
