@@ -1,8 +1,8 @@
 public class Controller {
   ArrayList<Artifact> artifacts;
-  ArrayList<DelaunayTriangle> triangles;
   boolean restartRequested;
   DelaunayTriangulation delaunay;
+  ArrayList<DelaunayTriangle> triangles;
   Options options;
   RemoteControlCommunication communication;
   Triangulate triangulate;
@@ -13,6 +13,7 @@ public class Controller {
     artifacts = new ArrayList<Artifact>();
     restartRequested = false;
     triangulate = new Triangulate();
+    triangles = new ArrayList<DelaunayTriangle>();
     createArtifacts();
   }
   private void createArtifacts() {
@@ -29,26 +30,28 @@ public class Controller {
     }
     if(options.delaunay || options.voronoi) {
       triangles = triangulate.triangulate(artifacts);
-      if(options.delaunay) {
-        delaunay.drawTriangles(triangles);
-      }
     }
     int nArtifacts = artifacts.size();
     for(int i = 0; i < nArtifacts; i++) {
       Artifact artifact = artifacts.get(i);
-      if(options.voronoi) {
-        PVector p = artifact.position;
+      if(options.voronoi ) {
+        //PVector p = artifact.position;
         int nTriangles = triangles.size();
         for (int j = 0; j <nTriangles; j++) {
           DelaunayTriangle triangle = (DelaunayTriangle)triangles.get(j);
           //if((triangle.p1.x == p.x && triangle.p1.y == p.y) || (triangle.p2.x == p.x && triangle.p2.y == p.y) || (triangle.p3.x == p.x && triangle.p3.y == p.y)) {
           if(triangle.a1 == artifact || triangle.a2 == artifact || triangle.a3 == artifact) {
-          //if(triangle.artifacts.contains(artifact)) {
             artifact.addTriangle(triangle);
           }
         }
         artifact.drawVoronoi();
       }
+    }
+   if(options.delaunay) {
+      delaunay.drawTriangles(triangles);
+    }
+    for(int i = 0; i < nArtifacts; i++) {
+      Artifact artifact = artifacts.get(i);
       Artifact closestArtifact = artifact.getClosestArtifact(artifacts);
       if(options.drawArtifacts) {
         artifact.display();
