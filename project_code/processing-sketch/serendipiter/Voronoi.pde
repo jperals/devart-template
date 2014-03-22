@@ -20,7 +20,6 @@ public class Voronoi {
     for(int i = 0; i < nTriangles; i++) {
       DelaunayTriangle t = triangles.get(i);
       if(t == null) {
-        println("triangle is null");
         continue;
       }
       PVector origin1 = new PVector((t.p1.x + t.p2.x)/2, (t.p1.y + t.p2.y)/2);
@@ -28,9 +27,34 @@ public class Voronoi {
       PVector origin2 = new PVector((t.p2.x + t.p3.x)/2, (t.p2.y + t.p3.y)/2);
       PVector samplePoint2 = new PVector(origin2.x + (origin2.y - t.p2.y), origin2.y - (origin2.x - t.p2.x));
       PVector circumCenter = lineIntersection(origin1.x, origin1.y, samplePoint1.x, samplePoint1.y, origin2.x, origin2.y, samplePoint2.x, samplePoint2.y);
-      points.add(new PVector(circumCenter.x, circumCenter.y));
+      if(circumCenter != null) {
+        points.add(new PVector(circumCenter.x, circumCenter.y));
+      }
     }
     Collections.sort(points, new slopeComparator());
     return points;
+  }
+  
+  /**
+  @author Ryan Alexander 
+  */
+   
+  // Infinite Line Intersection
+   
+  private PVector lineIntersection(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4)
+  {
+    float bx = x2 - x1;
+    float by = y2 - y1;
+    float dx = x4 - x3;
+    float dy = y4 - y3; 
+    float b_dot_d_perp = bx*dy - by*dx;
+    if(b_dot_d_perp == 0) {
+      return null;
+    }
+    float cx = x3-x1; 
+    float cy = y3-y1;
+    float t = (cx*dy - cy*dx) / b_dot_d_perp; 
+   
+    return new PVector(x1+t*bx, y1+t*by); 
   }
 }

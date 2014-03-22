@@ -1,3 +1,8 @@
+void sendMessage(String parameter) {
+  OscMessage msg = new OscMessage("/" + parameter);
+  oscP5.send(msg, remoteAddress);
+}
+
 void sendMessage(String parameter, boolean value) {
   int intValue = value ? 1 : 0; // There seem to be problems with passing booleans through OSC, so we pass an integer
   sendMessage(parameter, intValue);

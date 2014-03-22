@@ -1,16 +1,21 @@
 public class Controller {
   ArrayList<Artifact> artifacts;
   ArrayList<DelaunayTriangle> triangles;
-  Triangulate triangulate;
+  boolean restartRequested;
   DelaunayTriangulation delaunay;
   Options options;
   RemoteControlCommunication communication;
+  Triangulate triangulate;
   Controller() {
     delaunay = new DelaunayTriangulation();
     options = new Options();
-    triangulate = new Triangulate();
-    communication = new RemoteControlCommunication(options);
+    communication = new RemoteControlCommunication(this, options);
     artifacts = new ArrayList<Artifact>();
+    restartRequested = false;
+    triangulate = new Triangulate();
+    createArtifacts();
+  }
+  private void createArtifacts() {
     for(int i = 0; i < options.numberOfArtifacts; i++) {
       Artifact artifact = new Point();
       artifacts.add(artifact);
@@ -59,11 +64,22 @@ public class Controller {
     }
   }
   public void update() {
+    if(restartRequested) {
+      restart();
+      restartRequested = false;
+    }
     while(artifacts.size() < options.numberOfArtifacts) {
       artifacts.add(new Point());
     }
     while(artifacts.size() > options.numberOfArtifacts) {
       artifacts.remove(0);
     }
+  }
+  public void restart() {
+    artifacts.clear();
+    createArtifacts();
+  }
+  public void requestRestart() {
+    restartRequested = true;
   }
 }

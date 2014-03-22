@@ -8,7 +8,7 @@ NetAddress remoteAddress;
 Options options;
 
 void setup() {
-  size(400, 740);
+  size(480, 760);
   noStroke();
   cp5 = new ControlP5(this);
   oscP5 = new OscP5(this, MY_PORT);
