@@ -26,9 +26,9 @@ public class Voronoi {
       PVector samplePoint1 = new PVector(origin1.x + (origin1.y - (t.p1.y - artifactPosition.y)), origin1.y - (origin1.x - (t.p1.x - artifactPosition.x)));
       PVector origin2 = new PVector((t.p2.x + t.p3.x)/2 - artifactPosition.x, (t.p2.y + t.p3.y)/2 - artifactPosition.y);
       PVector samplePoint2 = new PVector(origin2.x + (origin2.y - (t.p2.y - artifactPosition.y)), origin2.y - (origin2.x - (t.p2.x - artifactPosition.x)));
-      PVector circumCenter = lineIntersection(origin1.x, origin1.y, samplePoint1.x, samplePoint1.y, origin2.x, origin2.y, samplePoint2.x, samplePoint2.y);
-      if(circumCenter != null) {
-        points.add(new PVector(circumCenter.x, circumCenter.y));
+      PVector circumcenter = lineIntersection(origin1.x, origin1.y, samplePoint1.x, samplePoint1.y, origin2.x, origin2.y, samplePoint2.x, samplePoint2.y);
+      if(circumcenter != null) {
+        points.add(new PVector(circumcenter.x, circumcenter.y));
       }
     }
     Collections.sort(points, new slopeComparator());

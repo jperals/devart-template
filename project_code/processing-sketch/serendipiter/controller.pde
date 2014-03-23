@@ -49,7 +49,7 @@ public class Controller {
             artifact.addTriangle(triangle);
           }
         }
-        artifact.drawVoronoi();
+        artifact.drawVoronoi(options.lerp, options.lerpLevels);
       }
     }
    if(options.delaunay) {

@@ -55,24 +55,38 @@ public class Artifact {
     distanceToClosestArtifact = minimumDistanceFound;
     return closestArtifactFound;
   }
-  public void drawVoronoi() {
+  public void drawVoronoi(boolean lerp, int lerpLevels) {
     Voronoi voronoi = new Voronoi(position);
     ArrayList<PVector> circumcenters = voronoi.getCircumcenters(triangles);
     int nCircumcenters = circumcenters.size();
     if(nCircumcenters > 2) {
       pushStyle();
-      fill(displayColor);
+      if(!lerp) {
+        fill(displayColor);
+      }
       noStroke();
       pushMatrix();
       translate(position.x, position.y);
       PVector firstPoint = circumcenters.get(0);
       PVector lastPoint = firstPoint;
-      for(int i = 1; i < nCircumcenters; i++) {
-        PVector point = circumcenters.get(i);
-        triangle(0, 0, lastPoint.x, lastPoint.y, point.x, point.y);
-        lastPoint = point;
+      for(int i = lerpLevels; i > 0; i--) {
+        float lerpAmount = float(i)/lerpLevels;
+        pushStyle();
+        if(lerp) {
+          fill(lerpColor(baseColor, displayColor, lerpAmount));
+        }
+        pushMatrix();
+        scale(float(i)/lerpLevels);
+        for(int j = 1; j < nCircumcenters; j++) {
+          PVector point = circumcenters.get(j);
+          triangle(0, 0, lastPoint.x, lastPoint.y, point.x, point.y);
+          lastPoint = point;
+        }
+        triangle(0, 0, lastPoint.x, lastPoint.y, firstPoint.x, firstPoint.y);
+        lastPoint = firstPoint;
+        popMatrix();
+        popStyle();
       }
-      triangle(0, 0, lastPoint.x, lastPoint.y, firstPoint.x, firstPoint.y);
       popMatrix();
       popStyle();
     }
