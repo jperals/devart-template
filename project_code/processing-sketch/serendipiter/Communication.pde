@@ -44,10 +44,6 @@ public class RemoteControlCommunication {
       options.delaunay = msg.get(0).intValue() == 1;
       println("Draw Delaunay triangulation: " + options.delaunay);
     }
-    else if(msg.checkAddrPattern("/delay")) {
-      options.exportFrameDelay = msg.get(0).intValue();
-      println("Delay between capture frames: " + options.delaunay);
-    }
     else if(msg.checkAddrPattern("/draw-lines")) {
       options.drawLine = msg.get(0).intValue() == 1;
       println("Draw lines: " + options.drawLine);
@@ -58,7 +54,7 @@ public class RemoteControlCommunication {
     }
     else if(msg.checkAddrPattern("/export-frame-delay")) {
       options.exportFrameDelay = msg.get(0).intValue();
-      println("Eport frame delay: " + options.exportFrameDelay);
+      println("Delay between capture frames: " + options.exportFrameDelay);
     }
     else if(msg.checkAddrPattern("/inertia")) {
       options.inertia = msg.get(0).intValue() == 1;
