@@ -6,6 +6,7 @@ public class Artifact {
   public float distanceToClosestArtifact;
   public PVector position;
   public PVector speed;
+  private Options options;
   ArrayList<DelaunayTriangle> triangles;
   Artifact() {
     this(randomX(), randomY());
@@ -16,6 +17,7 @@ public class Artifact {
     closestArtifact = this;
     displayColor = baseColor;
     distanceToClosestArtifact = -1;
+    this.options = options;
     position = new PVector(x, y);
     speed = new PVector(0, 0);
     triangles = new ArrayList<DelaunayTriangle>();
@@ -24,12 +26,19 @@ public class Artifact {
     triangles.add(t);
   }
   public void display() {}
-  public void update() {
+  public void update(Options options) {
     triangles.clear();
-    position.x += speed.x;
-    position.y += speed.y;
-    speed.x += acceleration.x;
-    speed.y += acceleration.y;
+    PVector difference = differenceTo(closestArtifact);
+    PVector movement = new PVector(difference.x * options.attraction / options.mass, difference.y * options.attraction / options.mass);
+    if(options.inertia) {
+      acceleration = movement;
+      position.add(speed);
+      speed.add(acceleration);
+    }
+    else {
+      movement.mult(100);
+      position.add(movement);
+    }
     float lerpAmount = 0.5/distanceToClosestArtifact;
     displayColor = lerpColor(displayColor, closestArtifact.displayColor, lerpAmount);
   }

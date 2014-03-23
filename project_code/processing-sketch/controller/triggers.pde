@@ -31,6 +31,12 @@ void delaunay(boolean value) {
   options.delaunay = value;
 }
 
+void inertia(boolean value) {
+  println("Inertia: " + value);
+  sendMessage("inertia", value);
+  options.inertia = value;
+}
+
 void lerp(int value) {
   println("Lerp levels: " + value);
   sendMessage("lerp-levels", value);

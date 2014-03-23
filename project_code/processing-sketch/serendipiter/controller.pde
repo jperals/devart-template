@@ -68,9 +68,7 @@ public class Controller {
         line(artifact.position.x, artifact.position.y, closestArtifact.position.x, closestArtifact.position.y);
         popStyle();
       }
-      artifact.update();
-      PVector difference = artifact.differenceTo(closestArtifact);
-      artifact.acceleration = new PVector(difference.x * options.attraction / options.mass, difference.y * options.attraction / options.mass);
+      artifact.update(options);
     }
   }
   public void update() {

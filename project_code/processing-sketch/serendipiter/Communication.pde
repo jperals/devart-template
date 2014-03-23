@@ -42,6 +42,10 @@ public class RemoteControlCommunication {
       options.drawArtifacts = msg.get(0).intValue() == 1;
       println("Draw artifacts: " + options.drawArtifacts);
     }
+    else if(msg.checkAddrPattern("/inertia")) {
+      options.inertia = msg.get(0).intValue() == 1;
+      println("Inertia: " + options.inertia);
+    }
     else if(msg.checkAddrPattern("/lerp-levels")) {
       options.lerpLevels = msg.get(0).intValue();
       options.lerp = options.lerpLevels > 0;  

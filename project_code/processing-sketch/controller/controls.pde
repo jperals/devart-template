@@ -2,7 +2,7 @@ void addControls(ControlP5 cp5, Options options) {
   cp5.addSlider("artifacts")
     .setPosition(50, 50)
     .setRange(options.minNumberOfArtifacts, options.maxNumberOfArtifacts)
-    .setSize(260, 60)
+    .setSize(240, 60)
     .setSliderMode(Slider.FLEXIBLE)
     .setValue(options.numberOfArtifacts)
     ;
@@ -13,9 +13,14 @@ void addControls(ControlP5 cp5, Options options) {
   cp5.addSlider("attraction")
     .setPosition(50, 150)
     .setRange(options.minAttraction, options.maxAttraction)
-    .setSize(380, 60)
+    .setSize(240, 60)
     .setSliderMode(Slider.FLEXIBLE)
     .setValue(options.attraction)
+    ;
+  cp5.addToggle("inertia")
+    .setPosition(370, 150)
+    .setSize(60, 60)
+    .setValue(options.inertia)
     ;
   cp5.addToggle("points")
     .setPosition(50, 250)
