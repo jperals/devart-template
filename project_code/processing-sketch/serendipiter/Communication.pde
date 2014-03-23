@@ -42,6 +42,11 @@ public class RemoteControlCommunication {
       options.drawArtifacts = msg.get(0).intValue() == 1;
       println("Draw artifacts: " + options.drawArtifacts);
     }
+    else if(msg.checkAddrPattern("/lerp-levels")) {
+      options.lerpLevels = msg.get(0).intValue();
+      options.lerp = options.lerpLevels > 0;  
+      println("Lerp levels: " + options.lerpLevels);
+    }
     else if(msg.checkAddrPattern("/number-of-artifacts")) {
       options.numberOfArtifacts = msg.get(0).intValue();
       println("Number of artifacts: " + options.numberOfArtifacts);
@@ -54,8 +59,8 @@ public class RemoteControlCommunication {
       options.voronoi = msg.get(0).intValue() == 1;
       println("Draw Voronoi tesselation: " + options.voronoi);
     }
-    else if(msg.checkAddrPattern("/restart")) {
-      controller.requestRestart();
+    else if(msg.checkAddrPattern("/reset")) {
+      controller.requestReset();
     }
   }
 }

@@ -31,6 +31,12 @@ void delaunay(boolean value) {
   options.delaunay = value;
 }
 
+void lerp(int value) {
+  println("Lerp levels: " + value);
+  sendMessage("lerp-levels", value);
+  options.lerpLevels = value;
+}
+
 void lines(boolean value) {
   println("Draw lines: " + value);
   sendMessage("draw-lines", value);
@@ -49,8 +55,8 @@ void trace(boolean value) {
   options.clear = !value;
 }
 
-void restart(int value) {
-  sendMessage("restart");
+void reset(int value) {
+  sendMessage("reset");
 }
 
 void voronoi(boolean value) {

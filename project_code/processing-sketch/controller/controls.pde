@@ -2,13 +2,19 @@ void addControls(ControlP5 cp5, Options options) {
   cp5.addSlider("artifacts")
     .setPosition(50, 50)
     .setRange(options.minNumberOfArtifacts, options.maxNumberOfArtifacts)
-    .setSize(380, 60)
+    .setSize(260, 60)
+    .setSliderMode(Slider.FLEXIBLE)
     .setValue(options.numberOfArtifacts)
+    ;
+  cp5.addButton("reset")
+    .setPosition(370, 50)
+    .setSize(60, 60)
     ;
   cp5.addSlider("attraction")
     .setPosition(50, 150)
     .setRange(options.minAttraction, options.maxAttraction)
     .setSize(380, 60)
+    .setSliderMode(Slider.FLEXIBLE)
     .setValue(options.attraction)
     ;
   cp5.addToggle("points")
@@ -22,7 +28,7 @@ void addControls(ControlP5 cp5, Options options) {
     .setValue(options.drawLine)
     ;
   cp5.addToggle("trace")
-    .setPosition(210, 250)
+    .setPosition(50, 350)
     .setSize(60, 60)
     .setValue(!options.clear)
     ;
@@ -36,16 +42,20 @@ void addControls(ControlP5 cp5, Options options) {
     .setSize(60, 60)
     .setValue(options.voronoi)
     ;
+  cp5.addSlider("lerp")
+    .setNumberOfTickMarks(options.maxLerpLevels)
+    .setPosition(290, 350)
+    .setRange(1, options.maxLerpLevels)
+    .setSize(140, 60)
+    .setSliderMode(Slider.FLEXIBLE)
+    .setValue(options.lerpLevels)
+    ;
   ResizableColorPicker colorPicker = new ResizableColorPicker(cp5, "backgroundcolor");
   colorPicker
     .setColorValue(options.backgroundColor)
-    .setPosition(50, 370)
+    .setPosition(50, 470)
     ;
   colorPicker
     .setItemSize(380, 60)
-    ;
-  cp5.addButton("restart")
-    .setPosition(370, 650)
-    .setSize(60, 60)
     ;
 }

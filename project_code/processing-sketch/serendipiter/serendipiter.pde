@@ -23,7 +23,7 @@ void keyPressed() {
     saveFrame("screenshot-" + formattedDate + "-######.png");
     break;
   case 'r':
-    controller.requestRestart();
+    controller.requestReset();
     break;
   }
 }

@@ -4,14 +4,14 @@ import java.util.Date;
 public class Controller {
   ArrayList<Artifact> artifacts;
   ArrayList<DelaunayTriangle> triangles;
-  boolean restartRequested, exportingGif;
+  boolean resetRequested, exportingGif;
   DelaunayTriangulation delaunay;
   GifMaker gifMaker;
   Options options;
   RemoteControlCommunication communication;
   Triangulate triangulate;
   Controller(PApplet applet) {
-    restartRequested = false;
+    resetRequested = false;
     exportingGif = false;
     delaunay = new DelaunayTriangulation();
     options = new Options();
@@ -74,9 +74,9 @@ public class Controller {
     }
   }
   public void update() {
-    if(restartRequested) {
-      restart();
-      restartRequested = false;
+    if(resetRequested) {
+      reset();
+      resetRequested = false;
     }
     if(exportingGif && frameCount % options.gifFrameDelay == 0) {
       gifMaker.addFrame();
@@ -88,12 +88,12 @@ public class Controller {
       artifacts.remove(0);
     }
   }
-  public void restart() {
+  public void reset() {
     artifacts.clear();
     createArtifacts();
   }
-  public void requestRestart() {
-    restartRequested = true;
+  public void requestReset() {
+    resetRequested = true;
   }
   public void toggleGifExport(PApplet applet) {
     exportingGif = !exportingGif;
