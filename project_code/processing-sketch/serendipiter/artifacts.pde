@@ -63,14 +63,17 @@ public class Artifact {
       pushStyle();
       fill(displayColor);
       noStroke();
+      pushMatrix();
+      translate(position.x, position.y);
       PVector firstPoint = circumcenters.get(0);
       PVector lastPoint = firstPoint;
       for(int i = 1; i < nCircumcenters; i++) {
         PVector point = circumcenters.get(i);
-        triangle(this.position.x, this.position.y, lastPoint.x, lastPoint.y, point.x, point.y);
+        triangle(0, 0, lastPoint.x, lastPoint.y, point.x, point.y);
         lastPoint = point;
       }
-      triangle(this.position.x, this.position.y, lastPoint.x, lastPoint.y, firstPoint.x, firstPoint.y);
+      triangle(0, 0, lastPoint.x, lastPoint.y, firstPoint.x, firstPoint.y);
+      popMatrix();
       popStyle();
     }
   }
