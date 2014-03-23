@@ -101,7 +101,7 @@ public class Controller {
       }
       Date date = new Date(); // Including the system time in the screenshot file name allows us to keep any screenshots we want instead of overriding the same file all the time
       String formattedDate = new java.text.SimpleDateFormat("yyyy-MM-dd.kk.mm.ss").format(date.getTime());
-      gifMaker = new GifMaker(applet, "screenshot-" + formattedDate + "-" + frameCount + ".gif");
+      gifMaker = new GifMaker(applet, "screenshots/screenshot-" + formattedDate + "-" + frameCount + ".gif");
       gifMaker.setRepeat(0);
     }
   }
