@@ -4,10 +4,11 @@ import java.util.Date;
 public class Controller {
   ArrayList<Artifact> artifacts;
   ArrayList<DelaunayTriangle> triangles;
-  boolean resetRequested, exportingGif;
+  boolean resetRequested, exportingGif, exportingPng;
   DelaunayTriangulation delaunay;
   GifMaker gifMaker;
   Options options;
+  PngSequenceMaker pngSequenceMaker;
   RemoteControlCommunication communication;
   Triangulate triangulate;
   Controller(PApplet applet) {
@@ -76,8 +77,11 @@ public class Controller {
       reset();
       resetRequested = false;
     }
-    if(exportingGif && frameCount % options.gifFrameDelay == 0) {
+    if(exportingGif && frameCount % options.exportFrameDelay == 0) {
       gifMaker.addFrame();
+    }
+    if(exportingPng && frameCount % options.exportFrameDelay == 0) {
+      pngSequenceMaker.saveCurrentFrame();
     }
     while(artifacts.size() < options.numberOfArtifacts) {
       artifacts.add(new Point());
@@ -86,6 +90,11 @@ public class Controller {
       artifacts.remove(0);
     }
   }
+  private String getFormattedDate() {
+      Date date = new Date();
+      String formattedDate = new java.text.SimpleDateFormat("yyyy-MM-dd.kk.mm.ss").format(date.getTime());
+      return formattedDate;
+  }
   public void reset() {
     artifacts.clear();
     createArtifacts();
@@ -93,16 +102,36 @@ public class Controller {
   public void requestReset() {
     resetRequested = true;
   }
+  public void saveCurrentFrame() {
+    String formattedDate = getFormattedDate();
+    saveFrame("screenshots/screenshot-" + formattedDate + "-######.png");
+  }
+  public void startPngExport() {
+    exportingPng = true;
+    if(pngSequenceMaker == null) {
+      Date date = new Date();
+      String formattedDate = getFormattedDate();   
+      pngSequenceMaker = new PngSequenceMaker("screenshots/capture-" + formattedDate + "-######");
+    }
+  }
+  public void finishPngExport() {
+    exportingPng = false;
+  }
   public void toggleGifExport(PApplet applet) {
     exportingGif = !exportingGif;
     if(exportingGif) {
       if(gifMaker != null) {
         gifMaker.finish();
       }
-      Date date = new Date(); // Including the system time in the screenshot file name allows us to keep any screenshots we want instead of overriding the same file all the time
-      String formattedDate = new java.text.SimpleDateFormat("yyyy-MM-dd.kk.mm.ss").format(date.getTime());
+      String formattedDate = getFormattedDate();
       gifMaker = new GifMaker(applet, "screenshots/screenshot-" + formattedDate + "-" + frameCount + ".gif");
       gifMaker.setRepeat(0);
+    }
+  }
+  public void togglePngExport() {
+    exportingPng = !exportingPng;
+    if(exportingPng) {
+      startPngExport();
     }
   }
 }

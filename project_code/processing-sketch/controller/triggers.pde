@@ -25,10 +25,21 @@ void backgroundcolor(color value) {
   options.backgroundColor = value;
 }
 
+void capture(boolean value) {
+  println("Capture: " + value);
+  sendMessage("capture", value);
+}
+
 void delaunay(boolean value) {
   println("Draw Delaunay triangulation: " + value);
   sendMessage("delaunay", value);
   options.delaunay = value;
+}
+
+void delay(int value) {
+  println("Delay between capture frames: " + value);
+  sendMessage("export-frame-delay", value);
+  options.exportFrameDelay = value;
 }
 
 void inertia(boolean value) {
@@ -72,9 +83,13 @@ void voronoi(boolean value) {
 }
 
 void sendAll() {
+  artifacts(options.numberOfArtifacts);
   attraction(options.attraction);
   backgroundcolor(options.backgroundColor);
   delaunay(options.delaunay);
+  delay(options.exportFrameDelay);
+  inertia(options.inertia);
+  lerp(options.lerpLevels);
   lines(options.drawLine);
   points(options.drawArtifacts);
   trace(!options.clear);

@@ -63,4 +63,17 @@ void addControls(ControlP5 cp5, Options options) {
   colorPicker
     .setItemSize(380, 60)
     ;
+  cp5.addSlider("delay")
+    .setNumberOfTickMarks(options.maxExportFrameDelay - options.minExportFrameDelay)
+    .setPosition(50, 750)
+    .setRange(options.minExportFrameDelay, options.maxExportFrameDelay)
+    .setSize(240, 60)
+    .setSliderMode(Slider.FLEXIBLE)
+    .setValue(options.exportFrameDelay)
+    ;
+  cp5.addToggle("capture")
+    .setPosition(370, 750)
+    .setSize(60, 60)
+    .setValue(false)
+    ;
 }

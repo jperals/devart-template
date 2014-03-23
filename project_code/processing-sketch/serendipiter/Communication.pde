@@ -30,17 +30,35 @@ public class RemoteControlCommunication {
       float alpha = msg.get(3).floatValue();
       options.backgroundColor = color(red, green, blue, alpha);
     }
-    else if(msg.checkAddrPattern("/draw-lines")) {
-      options.drawLine = msg.get(0).intValue() == 1;
-      println("Draw lines: " + options.drawLine);
+    else if(msg.checkAddrPattern("/capture")) {
+      boolean capture = msg.get(0).intValue() == 1;
+      if(capture) {
+        controller.startPngExport();
+      }
+      else {
+        controller.finishPngExport();
+      }
+      println("Export frames: " + capture);
     }
     else if(msg.checkAddrPattern("/delaunay")) {
       options.delaunay = msg.get(0).intValue() == 1;
       println("Draw Delaunay triangulation: " + options.delaunay);
     }
+    else if(msg.checkAddrPattern("/delay")) {
+      options.exportFrameDelay = msg.get(0).intValue();
+      println("Delay between capture frames: " + options.delaunay);
+    }
+    else if(msg.checkAddrPattern("/draw-lines")) {
+      options.drawLine = msg.get(0).intValue() == 1;
+      println("Draw lines: " + options.drawLine);
+    }
     else if(msg.checkAddrPattern("/draw-points")) {
       options.drawArtifacts = msg.get(0).intValue() == 1;
       println("Draw artifacts: " + options.drawArtifacts);
+    }
+    else if(msg.checkAddrPattern("/export-frame-delay")) {
+      options.exportFrameDelay = msg.get(0).intValue();
+      println("Eport frame delay: " + options.exportFrameDelay);
     }
     else if(msg.checkAddrPattern("/inertia")) {
       options.inertia = msg.get(0).intValue() == 1;

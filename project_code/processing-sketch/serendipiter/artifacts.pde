@@ -39,6 +39,8 @@ public class Artifact {
       movement.mult(100);
       position.add(movement);
     }
+    constrain(position.x, options.canvasStart.x, options.canvasEnd.x);
+    constrain(position.y, options.canvasStart.y, options.canvasEnd.y);
     float lerpAmount = 0.5/distanceToClosestArtifact;
     displayColor = lerpColor(displayColor, closestArtifact.displayColor, lerpAmount);
   }
