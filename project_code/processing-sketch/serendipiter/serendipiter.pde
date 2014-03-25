@@ -1,7 +1,7 @@
 Controller controller;
 
 void setup() {
-  size(900, 500);
+  size(1920, 1080);
   controller = new Controller(this);
 }
 

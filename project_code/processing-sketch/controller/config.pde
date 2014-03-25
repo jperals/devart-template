@@ -1,4 +1,4 @@
-String OTHER_IP = "127.0.0.1";
+String OTHER_IP = "192.168.178.21";
 int OTHER_PORT = 15000;
 int MY_PORT = 12000;
 
