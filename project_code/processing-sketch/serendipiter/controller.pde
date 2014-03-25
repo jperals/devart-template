@@ -83,11 +83,14 @@ public class Controller {
     if(exportingPng && frameCount % options.exportFrameDelay == 0) {
       pngSequenceMaker.saveCurrentFrame();
     }
-    while(artifacts.size() < options.numberOfArtifacts) {
+    int nArtifacts = artifacts.size();
+    if(nArtifacts < options.numberOfArtifacts) {
       artifacts.add(new Point());
     }
-    while(artifacts.size() > options.numberOfArtifacts) {
-      artifacts.remove(0);
+    else if(nArtifacts > options.numberOfArtifacts) {
+      int index = (int)random(nArtifacts);
+      constrain(index, 0, nArtifacts - 1);
+      artifacts.remove(index);
     }
   }
   private String getFormattedDate() {
