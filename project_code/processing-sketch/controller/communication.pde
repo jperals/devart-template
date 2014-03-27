@@ -2,26 +2,18 @@ import netP5.*;
 import oscP5.*;
 
 public class RemoteControlCommunication {
-  Controller controller;
-  NetAddressList remoteAddressList;
+  NetAddress remoteAddress;
   Options options;
   OscP5 oscP5;
-  RemoteControlCommunication(Controller controller, Options options) {
+  RemoteControlCommunication(Options options) {
     oscP5 = new OscP5(this, listeningPort);
-    remoteAddressList = new NetAddressList();
-    this.controller = controller;
+    remoteAddress = new NetAddress(remoteNetAddress, broadcastPort);
     this.options = options;
-    askForRemoteControl();
   }
-  private void askForRemoteControl() {
+  public void connect(String ipAddress) {
     OscMessage msg = new OscMessage("/connect");
-    oscP5.send(msg, remoteAddressList);
-  }
-  private void connect(String ipAddress) {
-    if(!remoteAddressList.contains(ipAddress, broadcastPort)) {
-      remoteAddressList.add(new NetAddress(ipAddress, broadcastPort));
-      println("Connected with " + ipAddress + ".");
-    }
+    oscP5.send(msg, remoteAddress);
+    sendAll();
   }
   private void oscEvent(OscMessage msg) {
     println("Message recieved");
@@ -32,25 +24,12 @@ public class RemoteControlCommunication {
       options.attraction = msg.get(0).floatValue();
       println("attraction: " + options.attraction);
     }
-    if(msg.checkAddrPattern("/background-color")) {
-      /*float red = msg.get(0).floatValue();
+    else if(msg.checkAddrPattern("/background-color")) {
+      float red = msg.get(0).floatValue();
       float green = msg.get(1).floatValue();
       float blue = msg.get(2).floatValue();
       float alpha = msg.get(3).floatValue();
-      options.backgroundColor = color(red, green, blue, alpha);*/
-      color backgroundColor = unhex(msg.get(0).stringValue());
-      options.backgroundColor = backgroundColor;
-      println("Background color: " + hex(backgroundColor));
-    }
-    else if(msg.checkAddrPattern("/capture")) {
-      boolean capture = msg.get(0).intValue() == 1;
-      if(capture) {
-        controller.startPngExport();
-      }
-      else {
-        controller.finishPngExport();
-      }
-      println("Export frames: " + capture);
+      options.backgroundColor = color(red, green, blue, alpha);
     }
     else if(msg.checkAddrPattern("/delaunay")) {
       options.delaunay = msg.get(0).intValue() == 1;
@@ -89,13 +68,33 @@ public class RemoteControlCommunication {
       options.voronoi = msg.get(0).intValue() == 1;
       println("Draw Voronoi tesselation: " + options.voronoi);
     }
-    else if(msg.checkAddrPattern("/reset")) {
-      controller.requestReset();
-    }
     else {
       return;
     }
-    oscP5.send(msg, remoteAddressList);
+    oscP5.send(msg, remoteAddress);
+  }
+  public void sendMessage(String parameter) {
+    OscMessage msg = new OscMessage("/" + parameter);
+    oscP5.send(msg, remoteAddress);
+  }
+  public void sendMessage(String parameter, boolean value) {
+    int intValue = value ? 1 : 0; // There seem to be problems with passing booleans through OSC, so we pass an integer
+    sendMessage(parameter, intValue);
+  }  
+  public void sendMessage(String parameter, float value) {
+    OscMessage msg = new OscMessage("/" + parameter);
+    msg.add(value);
+    oscP5.send(msg, remoteAddress);
+  }
+  public void sendMessage(String parameter, int value) {
+    OscMessage msg = new OscMessage("/" + parameter);
+    msg.add(value);
+    oscP5.send(msg, remoteAddress);
+  }
+  public void sendMessage(String parameter, String value) {
+    OscMessage msg = new OscMessage("/" + parameter);
+    msg.add(value);
+    oscP5.send(msg, remoteAddress);
   }
 }
 

@@ -1,4 +1,4 @@
-String OTHER_IP = "127.0.0.1";
-int OTHER_PORT = 15000;
-int MY_PORT = 12000;
+String remoteNetAddress = "127.0.0.1";
+int broadcastPort = 15000;
+int listeningPort = 12000;
 
