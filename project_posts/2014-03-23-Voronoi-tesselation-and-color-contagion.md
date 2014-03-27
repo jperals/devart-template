@@ -1,10 +1,10 @@
-After adding [Delaunay triangulation](//en.wikipedia.org/wiki/Delaunay_triangulation) to my project, it seemed a kind of logical step to also incorporate its geometrical brother, the [Voronoi tesselation](//en.wikipedia.org/wiki/Voronoi_tessellation). So, I did, even though it took quite some effort. On the other hand, as I said in my previous post, I have started to take care of colour a little more. This and other small additions now make our possibilities somewhat richer.
+After adding [Delaunay triangulation](http://en.wikipedia.org/wiki/Delaunay_triangulation) to my project, it seemed a kind of logical step to also incorporate its geometrical brother, the [Voronoi tesselation](http://en.wikipedia.org/wiki/Voronoi_tessellation). So, I did, even though it took quite some effort. On the other hand, as I said in my previous post, I have started to take care of colour a little more. This and other small additions now make our possibilities somewhat richer.
 
 Let's see all this with examples.
 
 This first image exemplifies most of the recently added features:
 
-![Voronoi tesselation and attraction-repulsion without inertia](project_images/2014-03-23/capture-2014-03-23.22.08.18-00.gif?raw=true "Voronoi tesselation and attraction-repulsion without inertia")
+![Voronoi tesselation and attraction-repulsion without inertia](https://raw.githubusercontent.com/jperals/devart-template/master/project_images/2014-03-23/capture-2014-03-23.22.08.18-00.gif "Voronoi tesselation and attraction-repulsion without inertia")
 
 - Voronoi tesselation (optional), with an extra option that lets each Voronoi polygon render several times in different sizes, concentrically. In this case, it's rendered twice.
 - Color "contagion": each artifact gradually gets its nearest neighbour's color. This creates different regions with more interesting color relationships, which eventually merge very gradually. When rendering Voronoi diagrams with multiple concentric polygons, each polygon uses a corresponding interpolation between its original color and its closest neighbour's color.
