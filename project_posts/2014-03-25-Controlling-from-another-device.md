@@ -8,7 +8,6 @@ Despite some obligatory tweaks (screen resolution, IP addresses, app permissions
 
 This (unfortunately rather amateur) video shows how it is to use a small Android smartphone to create Serendipity with our app.
 
-(Click on image to see video on Youtube)
 [![Link to Youtube video](project_images/2014-03-25/vlcsnap-2014-03-25-01h26m37s32.png?raw=true "Link to Youtube video")](http://youtu.be/4QSZSoGUKc4)
 
 To record this video I found myself kind of designing a choreography. I guess this is starting to become a live visual instrument...
