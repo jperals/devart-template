@@ -1,4 +1,2 @@
-String OTHER_IP = "192.168.178.49";
-int OTHER_PORT = 12000;
-int MY_PORT = 15000;
-
+int broadcastPort = 12000;
+int listeningPort = 15000;
