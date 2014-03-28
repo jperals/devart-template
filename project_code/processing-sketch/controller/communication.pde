@@ -1,80 +1,97 @@
+import java.util.List;
 import netP5.*;
 import oscP5.*;
 
-public class RemoteControlCommunication {
+public class RemoteBindings {
+  boolean connected;
+  boolean controlValueSetRemotely;
   NetAddress remoteAddress;
-  Options options;
+  ControlP5 cp5;
   OscP5 oscP5;
-  RemoteControlCommunication(Options options) {
+  RemoteBindings(ControlP5 cp5) {
+    connected = false;
+    controlValueSetRemotely = false;
     oscP5 = new OscP5(this, listeningPort);
     remoteAddress = new NetAddress(remoteNetAddress, broadcastPort);
-    this.options = options;
+    this.cp5 = cp5;
   }
-  public void connect(String ipAddress) {
+  public void connect() {
     OscMessage msg = new OscMessage("/connect");
     oscP5.send(msg, remoteAddress);
-    sendAll();
   }
   private void oscEvent(OscMessage msg) {
-    println("Message recieved");
-    if(msg.addrPattern().equals("/connect")) {
-      connect(msg.netAddress().address());
+    println("Message recieved from applet");
+    String parameter = msg.addrPattern().substring(1);
+    if (!connected) {
+      connected = true;
+      List<Button> buttons = cp5.getAll(Button.class);
+      for (Button button:buttons) {
+        if("connect".equals(button.getName())) {
+          button.setVisible(false);
+        }
+        else {
+          button
+            .setVisible(true)
+            .unlock()
+            ;
+        }
+      }
+      List<ControllerGroup> controllerGroups = cp5.getAll(ControllerGroup.class);
+      for (ControllerGroup controllerGroup:controllerGroups) {
+        controllerGroup
+          .setVisible(true)
+          ;
+      }
+      List<MyColorPicker> colorPickers = cp5.getAll(MyColorPicker.class);
+      for (ControllerGroup colorPicker:colorPickers) {
+        colorPicker
+          .setVisible(true)
+          ;
+      }
+      List<Toggle> toggles = cp5.getAll(Toggle.class);
+      for (Toggle toggle:toggles) {
+        toggle
+          .setVisible(true)
+          .unlock()
+          ;
+      }
+      List<Slider> sliders = cp5.getAll(Slider.class);
+      for (Slider slider:sliders) {
+        slider
+          .setVisible(true)
+          .unlock()
+          ;
+      }
     }
-    else if(msg.checkAddrPattern("/attraction")) {
-      options.attraction = msg.get(0).floatValue();
-      println("attraction: " + options.attraction);
+    if(! ("connect".equals(parameter)) && ! ("delay".equals(parameter))) {
+      controlValueSetRemotely = true;
     }
-    else if(msg.checkAddrPattern("/background-color")) {
+    println("parameter: " + parameter);
+    if("delay".equals(parameter)) {
+      return;
+    }
+    if ("background".equals(parameter)) {
+      println("message: " + msg);
       float red = msg.get(0).floatValue();
       float green = msg.get(1).floatValue();
       float blue = msg.get(2).floatValue();
       float alpha = msg.get(3).floatValue();
-      options.backgroundColor = color(red, green, blue, alpha);
-    }
-    else if(msg.checkAddrPattern("/delaunay")) {
-      options.delaunay = msg.get(0).intValue() == 1;
-      println("Draw Delaunay triangulation: " + options.delaunay);
-    }
-    else if(msg.checkAddrPattern("/draw-lines")) {
-      options.drawLine = msg.get(0).intValue() == 1;
-      println("Draw lines: " + options.drawLine);
-    }
-    else if(msg.checkAddrPattern("/draw-points")) {
-      options.drawArtifacts = msg.get(0).intValue() == 1;
-      println("Draw artifacts: " + options.drawArtifacts);
-    }
-    else if(msg.checkAddrPattern("/export-frame-delay")) {
-      options.exportFrameDelay = msg.get(0).intValue();
-      println("Delay between capture frames: " + options.exportFrameDelay);
-    }
-    else if(msg.checkAddrPattern("/inertia")) {
-      options.inertia = msg.get(0).intValue() == 1;
-      println("Inertia: " + options.inertia);
-    }
-    else if(msg.checkAddrPattern("/lerp-levels")) {
-      options.lerpLevels = msg.get(0).intValue();
-      options.lerp = options.lerpLevels > 0;  
-      println("Lerp levels: " + options.lerpLevels);
-    }
-    else if(msg.checkAddrPattern("/number-of-artifacts")) {
-      options.numberOfArtifacts = msg.get(0).intValue();
-      println("Number of artifacts: " + options.numberOfArtifacts);
-    }
-    else if(msg.checkAddrPattern("/trace")) {
-      options.clear = msg.get(0).intValue() == 0;
-      println("Clear: " + options.clear);
-    }
-    else if(msg.checkAddrPattern("/voronoi")) {
-      options.voronoi = msg.get(0).intValue() == 1;
-      println("Draw Voronoi tesselation: " + options.voronoi);
+      color backgroundColor = color(red, green, blue, alpha);
+      backgroundColorPicker.setColorValue(backgroundColor);
     }
     else {
-      return;
+      cp5.get(parameter).setValue(msg.get(0).floatValue());
     }
-    oscP5.send(msg, remoteAddress);
   }
   public void sendMessage(String parameter) {
     OscMessage msg = new OscMessage("/" + parameter);
+    oscP5.send(msg, remoteAddress);
+  }
+  public void sendMessage(String parameter, float[] valueArray) {
+    OscMessage msg = new OscMessage("/" + parameter);
+    for (int i  = 0; i < valueArray.length; i++) {
+      msg.add(valueArray[i]);
+    }
     oscP5.send(msg, remoteAddress);
   }
   public void sendMessage(String parameter, boolean value) {

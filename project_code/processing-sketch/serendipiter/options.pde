@@ -5,10 +5,10 @@ public class Options {
   private float minAttraction = -1;
   private float maxAttraction = 1;
   public PVector canvasStart, canvasEnd;
-  public int exportFrameDelay, minExportFrameDelay, maxExportFrameDelay;
+  public int exportFrameDelay, minExportFrameDelay = 1, maxExportFrameDelay = 300;
   public int lerpLevels;
-  public int maxLerpLevels;
-  public int minNumberOfArtifacts = 5;
+  public int maxLerpLevels = 3;
+  public int minNumberOfArtifacts = 10;
   public int maxNumberOfArtifacts = 400;
   public int numberOfArtifacts;
   
@@ -31,7 +31,6 @@ public class Options {
     mass = 5000;
     canvasStart = new PVector(-w*1.25, -h*1.25);
     canvasEnd = new PVector(w*1.25, h*1.25);
-    maxLerpLevels = 3;
     lerpLevels = lerp ? 1 : (int)random(maxLerpLevels);
     numberOfArtifacts = int(random(minNumberOfArtifacts, maxNumberOfArtifacts));
     voronoi = random(1) < 0.5;

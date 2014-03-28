@@ -62,7 +62,7 @@ public class Controller {
       if(options.drawArtifacts) {
         artifact.display();
       }
-      if(options.drawLine) {
+      if(options.drawLine && closestArtifact != null) {
         color lineColor = lerpColor(artifact.baseColor, closestArtifact.baseColor, 0.5);
         pushStyle();
         stroke(lineColor);
