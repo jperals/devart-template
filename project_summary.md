@@ -56,6 +56,4 @@ The project is based on Processing. In the "serendipiter" sketch we have many ob
 
 ![Screenshot](project_images/screenshot-2014-03-28.17.38.46-006639.png?raw=true "Screenshot")
 
-![Screenshot](https://raw.githubusercontent.com/jperals/devart-template/master/project_images/2014-03-23/capture-2014-03-23.22.08.18-00.gif "Screenshot")
-
 [![Link to Youtube video](project_images/2014-03-25/vlcsnap-2014-03-25-01h26m37s32.png?raw=true "Link to Youtube video")](http://youtu.be/4QSZSoGUKc4)
