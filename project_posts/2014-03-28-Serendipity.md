@@ -6,9 +6,11 @@ Anyway, let's end this part of the journey by sharing a couple of examples of "a
 
 At some point I realized that using triangles to draw polygons was much faster than using Processing's PShape class. But this is what happened when I forgot to draw the last triangle in the loop...
 
+
 ![Screenshot](project_images/2014-03-28/screenshot-2014-03-23.13.38.41-000372.png?raw=true "Screenshot")
 
-...And this is what happened when I somehow used the wrong values to scale the concentrical polygons of the Voronoi cells.
+...And this is what I got when I somehow used the wrong values to scale the concentrical polygons of the Voronoi cells.
+
 
 ![Screenshot](project_images/2014-03-28/screenshot-2014-03-22.20.15.08-004201.png?raw=true "Screenshot")
 
