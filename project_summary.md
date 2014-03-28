@@ -8,42 +8,54 @@ This project started as a Processing sketch with heavy dependency on random deci
 
 Here I'm following a kind of constant dialogue, on one side trying to leave as much room as possible for serendipity, while at the same time constraining the program to certain basic rules that obey to my own aesthetic judgment.
 
-But a bigger challenge is to make the process transparent to the viewer. Ideally, the output of the sketch would be not only an animation but also a generated code that can be related to the result.
+The project currently consists of two Processing sketches, one that generates graphics and the other that allows a user to tweak some parameters live. The second sketch can be run both on a computer on or an Android device, and several people can use it at the same time. In a public installation, visitors could use their Android device to interact simultaneously.
 
 ## Example Code
-Currently the project has the form of a Processing sketch in Coffeescript mode.
-Among other things, this allows me to execute functions that I pick randomly, e.g, from an array.
-Consider the class "Artifact". Note the "update" method which is called at each iteration from the main loop:
+The project is based on Processing. In the "serendipiter" sketch we have many objects of the class "Artifact" randomly generated, that we then can draw in many ways. This function that displays it as a custom [Voronoi cell](http://en.wikipedia.org/wiki/Voronoi_tessellation), drawing as many concentrical polygons as indicated by the variable "lerpLevels":
+```
+  public void drawVoronoi(boolean lerp, int lerpLevels) {
+    Voronoi voronoi = new Voronoi(position);
+    ArrayList<PVector> circumcenters = voronoi.getCircumcenters(triangles);
+    int nCircumcenters = circumcenters.size();
+    if(nCircumcenters > 2) {
+      pushStyle();
+      if(!lerp) {
+        fill(displayColor);
+      }
+      noStroke();
+      pushMatrix();
+      translate(position.x, position.y);
+      PVector firstPoint = circumcenters.get(0);
+      PVector lastPoint = firstPoint;
+      for(int i = lerpLevels; i > 0; i--) {
+        float lerpAmount = float(i)/lerpLevels;
+        pushStyle();
+        if(lerp) {
+          fill(lerpColor(baseColor, displayColor, lerpAmount));
+        }
+        pushMatrix();
+        scale(float(i)/lerpLevels);
+        for(int j = 1; j < nCircumcenters; j++) {
+          PVector point = circumcenters.get(j);
+          triangle(0, 0, lastPoint.x, lastPoint.y, point.x, point.y);
+          lastPoint = point;
+        }
+        triangle(0, 0, lastPoint.x, lastPoint.y, firstPoint.x, firstPoint.y);
+        lastPoint = firstPoint;
+        popMatrix();
+        popStyle();
+      }
+      popMatrix();
+      popStyle();
+    }
+  }
+}
+```
 
-```
-class Artifact
-  constructor: ->
-    this.color = randomColor()
-    this.translationStep = new PVector((Math.random() - 0.5) * width * 0.1, (Math.random() - 0.5) * height * 0.1)
-    this.pointTranslationStep = new PVector((Math.random() - 0.5) * width * 0.001, (Math.random() - 0.5) * height * 0.001)
-  update: ->
-    for mutation in this.mutations
-      mutation(this)
-(...)
-```
-
-This method calls all the functions inside the "mutations" array that lives inside every artifact. But this set of mutations is different for each type of artifact. For example, points just move their position and/or their speed:
-
-```
-class Point extends Artifact
-  constructor: ->
-    super
-    this.mutations = randomSelection(Point.prototype.possibleMutations)
-(...)
-  possibleMutations: [
-    (artifact) ->
-      artifact.position.x += artifact.pointTranslationStep.x
-      artifact.position.y += artifact.pointTranslationStep.y
-    (artifact) ->
-      artifact.pointTranslationStep.x += artifact.acceleration.x
-      artifact.pointTranslationStep.y += artifact.acceleration.y
-  ]
-```
 ## Images & Videos
 
-![Screenshot](project_images/cover.png?raw=true "Screenshot")
+![Screenshot](project_images/screenshot-2014-03-28.17.38.46-006639.png?raw=true "Screenshot")
+
+![Screenshot](https://raw.githubusercontent.com/jperals/devart-template/master/project_images/2014-03-23/capture-2014-03-23.22.08.18-00.gif "Screenshot")
+
+[![Link to Youtube video](project_images/2014-03-25/vlcsnap-2014-03-25-01h26m37s32.png?raw=true "Link to Youtube video")](http://youtu.be/4QSZSoGUKc4)
